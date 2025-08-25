@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Mada:wght@200;300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@200;300;400;500;600;700;800&family=Protest+Riot&display=swap');
+/* font-family: 'Inter', sans-serif;
+font-family: 'Mada', sans-serif;
+font-family: 'Plus Jakarta Sans', sans-serif;
+font-family: 'Poppins', sans-serif;
+font-family: 'Protest Riot', sans-serif; */
+*{
+    font-family: 'Poppins', sans-serif;
+}
+
+.fp_body{
+    height: 100vh;
+    display: flex;
+    padding: 20px;
+    flex-direction: column;
+}
+
+.fp_body a{
+    text-decoration: none;
+    text-transform: capitalize;
+}
+
+.fp_body .fp_outlet{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.fp_body .back a{    
+    text-decoration: none;
+    text-transform: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1b1c1e;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.fp_body .back a img{
+    width: 140px;
+}
+
+.fp_body .fp_outlet .back_hero{
+    height: 55vh;
+    overflow: hidden;
+    text-align: center;
+}
+
+.fp_body .fp_outlet .back_hero img{
+    height: 100%;
+}
+
+.fp_body .fp_outlet form{
+    gap: 5px;
+    width: 500px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.fp_body .fp_outlet form h5{
+    padding: 0;
+    margin: 0;
+}
+
+.fp_body .fp_outlet form div{
+    display: flex;
+    align-items: center;
+}
+
+.fp_body .fp_outlet form input:focus{
+    border: 1px dashed #FFC55B;
+    border-right: none;
+}
+
+.fp_body .fp_outlet form button{
+    border: 1px solid #FFC55B;
+    background-color: #FFC55B;
+    border-radius: 0 4px 4px 0;
+    padding: 5px 10px;
+    width: 120px;
+    font-weight: 600;
+    color: #1b1c1e;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.fp_body .fp_outlet form input{
+    font-family: 'Poppins', sans-serif;
+    border-top: 1px solid #FFC55B;
+    border-left: 1px solid #FFC55B;
+    border-bottom: 1px solid #FFC55B;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    padding: 5px 10px;
+    flex-grow: 1;
+    outline: none;
+    transition: .3s;
+}
+
+.fp_body .fp_outlet form button:hover{
+    background-color: #ffb325;
+}
+
+.fp_body .toggle_group{
+   text-align: center;
+   margin-bottom: 10px;
+}
+
+.fp_body .toggle_group p{
+    font-size: 12px;
+    font-weight: 600;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    margin-bottom: 5px;
+}
+
+@media only screen and (max-width: 800px){
+
+    .fp_body{
+        gap: 20px;
+        padding: 10px;
+    }
+    
+    .fp_body .fp_outlet form{
+        gap: 5px;
+        width: 100%;
+    }
+
+    .fp_body .fp_outlet .back_hero img{
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+    
+    .fp_body .fp_outlet form h5{
+        padding: 0;
+        margin: 0;
+        margin-top: 10px;
+        font-size: 14px;
+    }
+    
+    .fp_body .fp_outlet form input{
+        font-size: 14px;
+    }
+    
+    .fp_body .fp_outlet form button{
+        font-size: 14px;
+        width: 150px;
+        padding: 5px 0;
+    }
+    
+    .fp_body .toggle_group p{
+        font-size: 12px;
+        font-weight: 600;
+        padding-bottom: 0;
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+}

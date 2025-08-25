@@ -1,0 +1,50 @@
+div.shops_container a{
+    text-decoration: none;
+}
+
+div.shops_container .shop-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+}
+
+div.shops_container .shop-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+div.shop_listings div.listings{
+    gap: 10px;
+    min-height: 400px;
+}
+
+div.shop_listings div.listings a{
+    height: 400px;
+    color: #1b1c1e;
+}
+
+div.shop_listings div.listings a p{
+    margin: 0;
+}
+
+div.shop_listings div.listings a div:nth-child(even) {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+div.shop_listings div.listings a div p:nth-child(even) {
+    color: #555;
+    font-size: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* Limit to 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+@media only screen and (max-width: 800px) {
+    div.shop_listings div.listings a {
+        width: 47%;
+    }
+}

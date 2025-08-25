@@ -1,0 +1,198 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Mada:wght@200;300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@200;300;400;500;600;700;800&family=Protest+Riot&display=swap");
+/* font-family: 'Inter', sans-serif;
+font-family: 'Mada', sans-serif;
+font-family: 'Plus Jakarta Sans', sans-serif;
+font-family: 'Poppins', sans-serif;
+font-family: 'Protest Riot', sans-serif; */
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+#vendors {
+  font-family: "Mada", "Times New Roman", Times, serif;
+}
+
+.about_us .banner {
+  /* background-image: url('../images/about.png'); */
+  background-repeat: no-repeat;
+  background-size: cover;
+  object-fit: contain;
+  overflow: hidden;
+  height: 200px;
+  background-color: #fff;
+}
+
+.about_us .banner img {
+  height: 100%;
+}
+
+.about {
+  padding: 20px 100px;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.mission {
+  padding-right: 150px;
+  gap: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mission div {
+  height: 100px;
+  overflow: hidden;
+}
+
+.mission div img {
+  height: 100%;
+}
+
+.mission p {
+  width: 50%;
+}
+
+.contact-banner {
+  background-color: #fafafa;
+  padding: 30px 10px 20px 10px;
+}
+
+.contact-banner h5,
+.contact-banner p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.contact_banner {
+  width: 610px;
+  background-color: #ffa500;
+}
+
+.contact_body {
+  display: flex;
+  gap: 10px;
+  height: 550px;
+  overflow: hidden;
+}
+
+.contact_body form {
+  gap: 10px;
+  width: 550px;
+  display: flex;
+  padding: 30px 10px;
+  flex-direction: column;
+}
+
+.contact_body form input,
+.contact_body form textarea {
+  border: 1px solid #8a8a8a;
+  padding: 5px 10px;
+  font-size: 14px;
+  outline: none;
+  border-radius: 2px;
+}
+
+.contact_body form input:focus,
+.contact_body form textarea:focus {
+  border: none;
+  outline: 2px solid #ffa500;
+}
+
+.contact_body form .fields {
+  display: flex;
+  gap: 10px;
+}
+
+.contact_body form div input {
+  width: 50%;
+}
+
+.contact_body form div button {
+  border: 1px solid #ffa500;
+  background-color: #ffa500;
+  border-radius: 4px;
+  padding: 5px 15px;
+  font-size: 14px;
+  color: #fff;
+}
+
+.contact_body form div button:hover {
+  background-color: #b87903;
+}
+
+.map {
+  background-color: #fafafa;
+}
+
+.map h5 {
+  margin: 0;
+  padding: 10px;
+  font-weight: 300;
+}
+
+@media only screen and (max-width: 800px) {
+  .about {
+    padding: 10px;
+    gap: 20px;
+    font-size: 14px;
+  }
+
+  .about_us .banner img {
+    height: fit-content;
+    width: 100%;
+  }
+
+  .mission {
+    padding-right: 0;
+    padding: 10px;
+    gap: 10px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 4px;
+    border: 1px dotted #8a8a8a;
+  }
+
+  .mission div {
+    overflow: hidden;
+  }
+
+  .mission p {
+    width: 100%;
+  }
+
+  .contact-banner {
+    background-color: #fff;
+    padding: 30px 0 0 0;
+  }
+
+  .contact-banner h5,
+  .contact-banner p {
+    margin: 0;
+    font-size: 12px;
+  }
+
+  .contact-banner h5 {
+    font-size: 20px;
+  }
+
+  .contact_banner {
+    display: none;
+  }
+
+  .contact_body {
+    gap: 0;
+    display: flex;
+    height: fit-content;
+    flex-direction: column;
+  }
+
+  .contact_body form {
+    gap: 10px;
+    width: 100%;
+    padding: 30px 10px;
+  }
+}

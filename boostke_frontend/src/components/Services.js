@@ -1,0 +1,17 @@
+export const generalServices = [
+  "Beauty Services",
+  "Plumbing Services",
+  "Car Hire",
+  "Electrical Services",
+  "Catering Services",
+  "Funeral Services",
+  "Cleaning Services",
+  "Gardening and Landscaping",
+  "Painting and Renovation",
+  "Home Repair and Maintenance",
+  "Pest Control Services",
+  "Laundry and Dry Cleaning",
+  "Mobile Phone Repairs",
+  "IT Support Services",
+  "Tailoring and Clothing Alterations",
+];

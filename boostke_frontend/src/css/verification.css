@@ -1,0 +1,76 @@
+/* verification.css */
+
+.verification {
+    margin: auto;
+    /* background-color: #f8f9fa; */
+}
+
+.verification-content {
+    background-color: white;
+    border: 1px solid #ddd;
+    max-width: 600px;
+    margin-top: 50px;
+    overflow: hidden;
+}
+
+.verification h2.text-orange {
+    color: #ff8c00;
+    /* Orange color */
+}
+
+.verification-form .form-control {
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 12px;
+    font-size: 16px;
+}
+
+.verification-form .form-group {
+    margin-bottom: 15px;
+}
+
+.verification .btn-orange {
+    background-color: #ff8c00;
+    /* Orange color */
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.verification .btn-orange:hover {
+    background-color: #e77b00;
+}
+
+.verification .btn-outline-orange {
+    color: #ff8c00;
+    border: 1px solid #ff8c00;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.verification .btn-outline-orange:hover {
+    background-color: #ff8c00;
+    color: white;
+}
+
+.verification .loading_cursor {
+    cursor: progress;
+}
+
+.verification p {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.verification .disabled {
+    background-color: #e7e7e7;
+    border-color: #e7e7e7;
+    color: #aaa;
+    cursor: not-allowed;
+}

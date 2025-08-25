@@ -1,0 +1,56 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Mada:wght@200;300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@200;300;400;500;600;700;800&family=Protest+Riot&display=swap");
+@import "tailwindcss";
+/* font-family: 'Inter', sans-serif;
+font-family: 'Mada', sans-serif;
+font-family: 'Plus Jakarta Sans', sans-serif;
+font-family: 'Poppins', sans-serif;
+font-family: 'Protest Riot', sans-serif; */
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.clip-slant {
+  clip-path: polygon(0 0, 70% 0, 100% 100%, 0% 100%);
+}
+
+/* Add this CSS to your styles file (e.g., style.css) */
+.modal-container {
+  background-color: #fff;
+  color: #1b1c1e;
+  padding: 20px;
+  border-radius: 8px;
+  width: 550px;
+  max-height: 85vh;
+  overflow: hidden;
+  overflow-y: auto;
+  margin: auto;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.modal-container h3 {
+  color: #1b1c1e;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.MuiTextField-root {
+  margin-bottom: 10px;
+}
+
+.MuiButton-root {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+}

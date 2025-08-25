@@ -1,0 +1,502 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Mada:wght@200;300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@200;300;400;500;600;700;800&family=Protest+Riot&display=swap");
+/* font-family: 'Inter', sans-serif;
+font-family: 'Mada', sans-serif;
+font-family: 'Plus Jakarta Sans', sans-serif;
+font-family: 'Poppins', sans-serif;
+font-family: 'Protest Riot', sans-serif; */
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.login,
+.register,
+.resetpass {
+  gap: 20px;
+  padding-right: 77px;
+  display: flex;
+  height: 100vh;
+  width: calc(100% - 77px);
+  overflow: hidden;
+  align-items: center;
+  position: relative;
+}
+
+.login .login_image {
+  position: relative;
+  height: 100%;
+  width: 50%;
+  background-color: #8f8e8e;
+  background-image: url("../images/login_back.svg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.login .login_image a,
+.login .login_image button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px;
+  margin: 10px;
+  width: 120px;
+  overflow: hidden;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1b1c1e;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #ffffff9d;
+}
+
+.login .login_image a img {
+  width: 100%;
+}
+
+/* .login form h1{
+    color: #FFA500;
+    padding-bottom: 40px;
+    font-family: 'Protest Riot', sans-serif;
+} */
+
+.login form .login_boost_logo {
+  width: 150px;
+  overflow: hidden;
+  padding-bottom: 20px;
+}
+
+.login form .login_boost_logo img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+.login form h2 {
+  font-weight: normal;
+  padding: 0;
+  margin: 0;
+  font-family: "Mada", sans-serif;
+}
+
+.login form,
+.register form,
+.resetpass form {
+  gap: 20px;
+  width: 500px;
+  display: flex;
+  padding: 20px;
+  overflow-y: auto;
+  flex-direction: column;
+  justify-content: start;
+}
+
+/* .resetpass form  */
+
+.login form input.email_input,
+.login form button,
+.resetpass form button {
+  outline: none;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+}
+
+.login form input.email_input {
+  padding: 15px;
+  border: 1px solid #474747;
+}
+/* .login form div.password-input-wrapper {
+  padding: 15px;
+  border: 1px solid #474747;
+  outline: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+} */
+
+.login form button {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+  background-color: #ffc55b;
+  border: 1px solid #ffc55b;
+}
+
+.login form .reg_link {
+  display: flex;
+  flex-direction: column;
+}
+
+.login form .reg_link p {
+  margin-top: 10px;
+}
+
+.login form p,
+.login form a {
+  font-size: 14px;
+  color: #474747;
+}
+
+.login form a {
+  text-decoration: none;
+}
+
+.login form .fp {
+  text-align: end;
+  margin-bottom: 10px;
+}
+
+.login form p a {
+  color: #1b1c1e;
+  font-weight: bold;
+}
+
+.login_footer {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  padding: 8px 0;
+  width: 100%;
+  font-size: 9px;
+  background-color: #1b1c1e;
+  color: #fff;
+}
+
+.login_footer a {
+  color: #fff;
+}
+
+.login form .login_form_footer {
+  font-size: 12px;
+  padding-top: 20px;
+}
+
+.login form .login_form_footer a {
+  font-size: 12px;
+  text-decoration: none;
+  color: rgb(7, 117, 228);
+}
+
+/* registration panel */
+.register .reg_image {
+  position: relative;
+  height: 100%;
+  width: 50%;
+  background-color: #ffc55b;
+  background-image: url("../images/reg_back.png");
+  background-position: contain;
+}
+
+.register .reg_image a {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px;
+  margin: 10px;
+  width: 120px;
+  overflow: hidden;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1b1c1e;
+  border-radius: 4px;
+  /* background: #ffffff9d; */
+}
+
+.register .reg_image a img {
+  width: 100%;
+}
+
+.register .reg_image .back_text {
+  height: calc(100vh - 40px);
+  display: flex;
+  padding: 20px;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.register .reg_image .back_text h1 {
+  font-size: 40px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+.register form h2 {
+  padding: 0;
+  margin: 0;
+  font-weight: 500;
+  font-family: "Inter", sans-serif;
+}
+
+.register form input,
+.register form button {
+  outline: none;
+  border: 1px solid #8f8e8e;
+  padding: 8px 15px;
+  border-radius: 4px;
+  background-color: #fafafa;
+}
+
+.register form .dropdown select {
+  cursor: pointer;
+  font-weight: bold;
+  padding: 0 5px;
+  color: #474747;
+  border-radius: 4px 0 0 4px;
+  background-color: #fafafa;
+}
+
+.register form .dropdown input {
+  border-radius: 0 4px 4px 0;
+}
+
+.register form div {
+  display: flex;
+}
+
+.register form div input {
+  flex-grow: 1;
+}
+
+.register form .reg_link {
+  display: flex;
+  flex-direction: column;
+}
+
+.register .reg_link p b {
+  color: #ffa500;
+}
+
+.register .reg_link button {
+  border: 1px solid #ffc55b;
+  background-color: #ffc55b;
+  color: #1b1c1e;
+  cursor: pointer;
+}
+
+.register .reg_link p {
+  font-size: 12px;
+  text-align: center;
+}
+
+.register .reg_link p a {
+  color: #ffa500;
+  text-decoration: none;
+}
+
+/* reset password */
+.resetpass .resetpass_image {
+  position: relative;
+  height: 100%;
+  width: 50%;
+  background-color: #8f8e8e;
+  background-image: url("../images/reset_pass.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.resetpass .resetpass_image a {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px;
+  margin: 10px;
+  width: 150px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #ffffff9d;
+}
+
+.resetpass .resetpass_image a img {
+  width: 100%;
+}
+
+.boost_reset_title {
+  display: flex;
+  align-items: center;
+}
+
+.resetpass .boost_logo {
+  margin-left: -10px;
+  width: 150px;
+  overflow: hidden;
+  padding-bottom: 4px;
+}
+
+.resetpass .boost_logo img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.resetpass form h2 {
+  font-weight: normal;
+  padding: 0;
+  margin: 0;
+  font-family: "Mada", sans-serif;
+}
+
+.resetpass form input {
+  border: 1px solid #8f8e8e;
+  border-radius: 4px;
+  padding: 5px 10px;
+  outline: none;
+}
+
+.resetpass form input:focus {
+  border: 1px dashed #ffa500;
+}
+
+.resetpass form button {
+  border: 1px solid #ffc55b;
+  background-color: #ffc55b;
+  transition: 0.5s;
+  color: #1b1c1e;
+  cursor: pointer;
+}
+
+.resetpass form button:hover {
+  background-color: #fad695;
+}
+
+.loading_cursor {
+  cursor: progress;
+}
+
+div.login_btn_divider {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+div.login_btn_divider div {
+  border-bottom: 1px solid #eee;
+  width: 47%;
+}
+
+@media only screen and (max-width: 800px) {
+  .login,
+  .register,
+  .resetpass {
+    gap: 0;
+    padding: 10px;
+    display: block;
+    width: 100%;
+    align-items: normal;
+  }
+
+  .login .login_image {
+    position: relative;
+    height: fit-content;
+    width: fit-content;
+    background-image: none;
+  }
+
+  .login .login_image a,
+  .login .login_image button {
+    padding: 0;
+    margin: 0;
+    width: 100px;
+  }
+
+  .login form .login_boost_logo {
+    margin-bottom: 40px;
+    padding-bottom: 0;
+    margin-top: 40px;
+  }
+
+  .login form,
+  .register form,
+  .resetpass form {
+    gap: 20px;
+    width: 100%;
+  }
+
+  .login form .reg_link p {
+    margin-top: 10px;
+    /* text-align: center; */
+    font-size: 12px;
+  }
+
+  .login_form_footer {
+    display: none;
+  }
+
+  .login_footer {
+    display: block;
+  }
+
+  .login_footer a {
+    text-decoration: none;
+  }
+
+  /* registration panel */
+  .register {
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+  }
+
+  .register .reg_image {
+    height: fit-content;
+    width: fit-content;
+  }
+
+  .register .reg_image a {
+    padding: 0;
+    margin: 10px;
+    width: 100px;
+  }
+
+  .register .reg_image .back_text {
+    height: 100%;
+    padding: 40px 10px 10px 10px;
+    width: 100%;
+  }
+
+  .register .reg_image .back_text h1 {
+    font-size: 30px;
+    text-align: center;
+    font-family: "Protest Riot", sans-serif;
+  }
+
+  .register form input,
+  .register form button {
+    font-size: 14px;
+  }
+
+  .register form .dropdown select {
+    font-size: 14px;
+  }
+
+  /* reset password */
+  .resetpass .resetpass_image {
+    height: fit-content;
+    width: fit-content;
+    background-color: #8f8e8e;
+    background-image: none;
+  }
+
+  .resetpass .resetpass_image a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 130px;
+    margin: 0;
+    padding: 5px;
+  }
+
+  .boost_reset_title {
+    margin-top: 40px;
+  }
+}
