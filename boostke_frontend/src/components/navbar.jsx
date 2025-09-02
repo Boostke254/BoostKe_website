@@ -60,6 +60,11 @@ function Navbar() {
           </NavLink>
         </li>
         <li>
+          <NavLink className={linkClasses} to="/franchise">
+            Franchise
+          </NavLink>
+        </li>
+        <li>
           <NavLink className={linkClasses} to="/kncci">
             KNCCI
           </NavLink>

@@ -55,6 +55,9 @@ const StickyMiniNavbar = () => {
         <NavLink className={linkClasses} to="/freelance">
           Freelancers
         </NavLink>
+        <NavLink className={linkClasses} to="/franchise">
+          Franchise
+        </NavLink>
         <NavLink className={linkClasses} to="/profile">
           My Account
         </NavLink>

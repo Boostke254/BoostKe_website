@@ -4,12 +4,13 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import Skeleton from "@mui/material/Skeleton";
 import { useParams, NavLink } from "react-router-dom";
-import { Container, CircularProgress } from "@mui/material";
+import { Container, CircularProgress, Box, Button } from "@mui/material";
 import { BASE_URL } from "../api/axios";
 import { motion } from "framer-motion";
 import "../css/shop.css";
 import InboxIcon from "@mui/icons-material/Inbox";
 import { Helmet } from "react-helmet";
+import AddToCart from "../components/AddToCart";
 
 const ShopProducts = () => {
   const { shopId, shopName } = useParams();
@@ -265,10 +266,11 @@ const ShopProducts = () => {
                     boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
                   }}
                   transition={{ type: "spring", stiffness: 300 }}
+                  className="bg-white rounded-md shadow-md overflow-hidden transform transition duration-300"
                 >
                   <NavLink
-                    className="bg-white rounded-md shadow-md overflow-hidden transform transition duration-300 hover:scale-102"
                     to={`/view/${listing.title}/${listing.listing_id}`}
+                    className="block"
                   >
                     <div className="bg-orange-50 h-50">
                       <LazyLoadImage
@@ -302,6 +304,21 @@ const ShopProducts = () => {
                       </p>
                     </div>
                   </NavLink>
+                  
+                  {/* Add to Cart Button */}
+                  <Box sx={{ p: 1 }}>
+                    <AddToCart
+                      listing={{
+                        listing_id: listing.listing_id,
+                        title: listing.title,
+                        price: listing.price,
+                        item_type: 'product'
+                      }}
+                      variant="button"
+                      size="small"
+                      showQuantity={true}
+                    />
+                  </Box>
                 </motion.div>
               );
             })

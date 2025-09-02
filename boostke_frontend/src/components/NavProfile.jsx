@@ -9,9 +9,9 @@ import { useAuth } from "../context/AuthProvider";
 import { BASE_URL } from "../api/axios";
 import MessageBadge from "./MessageBadge";
 import ContactMail from "@mui/icons-material/ContactMail";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import DesignServicesIcon from "@mui/icons-material/DesignServices";
+import CartIcon from "./CartIcon";
 
 const NavProfile = () => {
   const { logout } = useAuth();
@@ -80,18 +80,22 @@ const NavProfile = () => {
 
   return user ? (
     <div className="flex items-center relative">
-      <NavLink
-        to="/cart"
-        className="hidden md:block text-amber-600 hover:text-amber-500 transition-colors me-3"
-      >
-        <ShoppingCartIcon fontSize="medium" />
-      </NavLink>
-      <NavLink
-        to="/cart"
-        className="block md:hidden text-amber-600 hover:text-amber-500 transition-colors me-3"
-      >
-        <ShoppingCartIcon sx={{ fontSize: "18px" }} />
-      </NavLink>
+      {/* Enhanced Cart Icon with badge */}
+      <div className="hidden md:block me-3">
+        <CartIcon 
+          showCount={true}
+          color="inherit"
+          size="medium"
+        />
+      </div>
+      <div className="block md:hidden me-3">
+        <CartIcon 
+          showCount={true}
+          color="inherit"
+          size="small"
+        />
+      </div>
+      
       <MessageBadge />
 
       <div className="relative" ref={popupRef}>

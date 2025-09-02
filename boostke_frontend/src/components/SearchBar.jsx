@@ -1,15 +1,19 @@
 import { productCategories } from "../components/Categories";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../css/components.css";
+import AdvancedSearchBar from "./AdvancedSearchBar";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 
 const SearchBar = () => {
-  //navbar
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [value, setValue] = useState("");
   const [category, setCategory] = useState("");
   const [showSearch, setShowSearch] = useState(false);
+  const [useAdvancedSearch, setUseAdvancedSearch] = useState(true);
 
   // Event handler for search input
   const handleSearch = (event) => {
@@ -24,14 +28,40 @@ const SearchBar = () => {
   // Handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
-    navigate(`/search?q=${value}`);
-    setShowSearch(false); // Close the form after submission
+    if (value.trim()) {
+      const searchParams = new URLSearchParams({
+        q: value.trim(),
+        type: 'all'
+      });
+      
+      if (category && category !== 'products') {
+        searchParams.set('category', category);
+      }
+      
+      navigate(`/search?${searchParams.toString()}`);
+      setShowSearch(false); // Close the form after submission
+      
+      // Save to recent searches
+      const recentSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
+      const newSearch = { query: value.trim(), timestamp: Date.now() };
+      const updatedSearches = [newSearch, ...recentSearches.filter(s => s.query !== value.trim())].slice(0, 10);
+      localStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
+    }
   };
 
   // Toggle search form visibility
   const handleSearchIconClick = () => {
     setShowSearch((prev) => !prev);
   };
+
+  // Use advanced search for desktop, simple search for mobile
+  if (!isMobile && useAdvancedSearch) {
+    return (
+      <Box sx={{ width: '100%', maxWidth: 600 }}>
+        <AdvancedSearchBar />
+      </Box>
+    );
+  }
 
   return (
     <>
@@ -43,27 +73,23 @@ const SearchBar = () => {
           type="text"
           value={value}
           onChange={handleSearch}
-          placeholder="Search item e.g 'Bag', 'Laptop'"
-          className="text-xs w-4/5"
+          placeholder="Search for products, properties, shops..."
+          className="text-xs w-4/5 px-2 py-1 border-none outline-none"
           required
         />
         <select
           id="dropdown"
-          className="text-xs w-1/5"
+          className="text-xs w-1/5 border-none outline-none"
           value={category}
           onChange={handleCat}
         >
-          <option value="products">Products</option>
+          <option value="">All</option>
+          <option value="listings">Products</option>
+          <option value="properties">Properties</option>
+          <option value="shops">Shops</option>
           <option value="services">Services</option>
-          <option value="freelancers">Freelancers</option>
-          <option value="innovators">Innovators</option>
-          {/* {productCategories.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))} */}
         </select>
-        <button className="search_btn" type="submit">
+        <button className="search_btn" type="submit" title="Search">
           <SearchIcon />
         </button>
       </form>
@@ -74,8 +100,8 @@ const SearchBar = () => {
             type="text"
             value={value}
             onChange={handleSearch}
-            className="text-[10px] w-5/7"
-            placeholder="Search product..."
+            className="text-[10px] w-5/7 px-1"
+            placeholder="Search products, properties..."
             required
           />
           <select
@@ -84,17 +110,13 @@ const SearchBar = () => {
             value={category}
             onChange={handleCat}
           >
-            <option value="products">Products</option>
+            <option value="">All</option>
+            <option value="listings">Products</option>
+            <option value="properties">Properties</option>
+            <option value="shops">Shops</option>
             <option value="services">Services</option>
-            <option value="freelancers">Freelancers</option>
-            <option value="innovators">Innovators</option>
-            {/* {productCategories.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))} */}
           </select>
-          <button className="search_btn" type="submit">
+          <button className="search_btn" type="submit" title="Search">
             <SearchIcon />
           </button>
         </form>

@@ -16,6 +16,7 @@ import Register from "./pages/register";
 import Shop from "./pages/shop";
 import ShopProducts from "./pages/shopView";
 import Cart from "./pages/cart";
+import CheckoutSuccess from "./pages/CheckoutSuccess";
 import Search from "./pages/search";
 import Profile from "./pages/profile";
 import Seller from "./pages/seller_profile";
@@ -31,6 +32,7 @@ import Forgotpassword from "./pages/forgotpassword";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import RequireAuth from "./pages/RequireAuth";
 import Verification from "./pages/verificationPage";
+import Franchise from "./pages/franchise";
 import KNCCI from "./pages/kncci";
 import { useAuth } from "./context/AuthProvider";
 
@@ -69,6 +71,10 @@ const router = createBrowserRouter([
       {
         path: "/freelance",
         element: <Freelancers />,
+      },
+      {
+        path: "/franchise",
+        element: <Franchise />,
       },
       {
         path: "/kncci",
@@ -144,6 +150,10 @@ const router = createBrowserRouter([
           {
             path: "/cart",
             element: <Cart />,
+          },
+          {
+            path: "/checkout-success",
+            element: <CheckoutSuccess />,
           },
           {
             path: "/faqs",
