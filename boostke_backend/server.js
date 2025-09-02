@@ -13,11 +13,14 @@ const PORT = process.env.PORT || 5000;
 
 // Allowed origins
 const allowedOrigins = [
-  "http://localhost:5173",
+  "http://localhost:5173", // Development
   "https://boostke.co.ke",
   "https://www.boostke.co.ke",
   "http://www.boostke.co.ke",
   "http://boostke.co.ke",
+  // Add your actual domain here when you get it
+  // "https://your-actual-domain.com",
+  // "https://www.your-actual-domain.com",
 ];
 
 // CORS configuration
@@ -156,8 +159,12 @@ app.use("/api/listings", getDistinctListingsCategoriesRouter);
 //search routes
 const searchListingRouter = require("./routes/listings/search");
 const searchPropertyRouter = require("./routes/properties/search");
+const searchShopRouter = require("./routes/shops/search");
+const universalSearchRouter = require("./routes/search/universal");
 app.use("/api/listings", searchListingRouter);
 app.use("/api/properties", searchPropertyRouter);
+app.use("/api/shops", searchShopRouter);
+app.use("/api/search", universalSearchRouter);
 
 //messages
 const MessagesRouter = require("./routes/messages/Chats");
@@ -184,8 +191,12 @@ app.use("/api/categories", countAllCategoriesRouter);
 app.use("/api/messages", countAllUnreadMessagesRouter);
 
 //mpesa routes
-// const mpesaRouter = require("./routes/mpesa/mpesa");
-// app.use("/api/mpesa", mpesaRouter);
+const mpesaRouter = require("./routes/mpesa/mpesa");
+app.use("/api/mpesa", mpesaRouter);
+
+//cart routes
+const cartRouter = require("./routes/cart/cart");
+app.use("/api/cart", cartRouter);
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {

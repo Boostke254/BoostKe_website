@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /profile
+Disallow: /forgotpassword
+Disallow: /resetpassword
+Disallow: /editprofile
+Disallow: /cart
+Disallow: /chat
+Allow: /
+
+Sitemap: https://boostke.co.ke/sitemap.xml
