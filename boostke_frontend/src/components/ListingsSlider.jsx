@@ -10,6 +10,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { BASE_URL } from "../api/axios";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useRef } from "react";
+import AddToCart from "./AddToCart";
+import { Box } from "@mui/material";
 
 function ListingsSlider() {
   const [listings, setListings] = useState([]);
@@ -87,12 +89,19 @@ function ListingsSlider() {
   };
 
   const getPhotoUrl = (photo) => {
-    // If the photo already starts with 'http', return as is
+    if (!photo) return '/placeholder-image.jpg';
+    
+    // If photo is already a full URL, fix the domain if needed
     if (photo.startsWith("http")) {
-      return photo;
+      // Replace old api.boostke.co.ke with current domain
+      return photo
+        .replace("http://api.boostke.co.ke/uploads/", "https://boostke.co.ke/uploads/")
+        .replace("https://api.boostke.co.ke/uploads/", "https://boostke.co.ke/uploads/")
+        .replace("http://boostke.co.ke/uploads/", "https://boostke.co.ke/uploads/");
     }
-    // Otherwise, prepend the base URL
-    return `${BASE_URL}${photo}`;
+    
+    // For relative paths, use current BASE_URL
+    return `${BASE_URL}${photo.startsWith('/') ? photo : '/uploads/' + photo}`;
   };
 
   return (
@@ -114,35 +123,54 @@ function ListingsSlider() {
                 if (!listing.photos || listing.photos.length === 0) return null;
 
                 return (
-                  <NavLink
-                    className="flex-none w-1/3 md:w-[200px] h-[200px] md:h-[250px] overflow-hidden bg-white shadow-md hover:scale-102 transition-all duration-150"
-                    onClick={() => {
-                      window.location.href = `/view/${listing.title}/${listing.listing_id}`;
-                    }}
+                  <div
+                    className="flex-none w-1/3 md:w-[200px] overflow-hidden bg-white shadow-md hover:scale-102 transition-all duration-150"
                     key={listing.listing_id}
                   >
-                    <div className="h-[70%]">
-                      <LazyLoadImage
-                        src={getPhotoUrl(listingImage)}
-                        alt={listing.title}
-                        effect="blur"
-                        className="!w-full !h-full object-cover"
-                        wrapperClassName="w-full h-full"
+                    <NavLink
+                      className="block h-[150px] md:h-[180px]"
+                      onClick={() => {
+                        window.location.href = `/view/${listing.title}/${listing.listing_id}`;
+                      }}
+                    >
+                      <div className="h-[70%]">
+                        <LazyLoadImage
+                          src={getPhotoUrl(listingImage)}
+                          alt={listing.title}
+                          effect="blur"
+                          className="!w-full !h-full object-cover"
+                          wrapperClassName="w-full h-full"
+                        />
+                      </div>
+                      <div className="flex flex-col h-[30%] justify-between p-2">
+                        <p className="text-[9px] md:text-xs font-semibold line-clamp-1 text-gray-700">
+                          {listing.title}
+                        </p>
+                        <p className="text-[9px] md:text-xs font-bold text-green-600">
+                          Ksh {parseFloat(listing.price).toLocaleString("en-US")}
+                        </p>
+                        <p className="text-gray-400 text-[9px] md:text-[10px] flex items-center gap-1">
+                          <LocationOnIcon fontSize="12" />
+                          {listing.location}
+                        </p>
+                      </div>
+                    </NavLink>
+                    
+                    {/* Add to Cart Button */}
+                    <Box sx={{ p: 0.5 }}>
+                      <AddToCart
+                        listing={{
+                          listing_id: listing.listing_id,
+                          title: listing.title,
+                          price: listing.price,
+                          item_type: 'product'
+                        }}
+                        variant="button"
+                        size="small"
+                        showQuantity={true}
                       />
-                    </div>
-                    <div className="flex flex-col h-[30%] justify-between p-2">
-                      <p className="text-[9px] md:text-xs font-semibold line-clamp-1 text-gray-700">
-                        {listing.title}
-                      </p>
-                      <p className="text-[9px] md:text-xs font-bold text-green-600">
-                        Ksh {parseFloat(listing.price).toLocaleString("en-US")}
-                      </p>
-                      <p className="text-gray-400 text-[9px] md:text-[10px] flex items-center gap-1">
-                        <LocationOnIcon fontSize="12" />
-                        {listing.location}
-                      </p>
-                    </div>
-                  </NavLink>
+                    </Box>
+                  </div>
                 );
               })
             ) : (

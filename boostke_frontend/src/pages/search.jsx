@@ -16,6 +16,7 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import SortIcon from "@mui/icons-material/Sort";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import ViewModuleIcon from "@mui/icons-material/ViewModule";
+import AddToCart from "../components/AddToCart";
 import {
   Divider,
   Pagination,
@@ -180,10 +181,18 @@ function Search() {
 
   const getPhotoUrl = (photo) => {
     if (!photo) return '/placeholder-image.jpg';
+    
+    // If photo is already a full URL, fix the domain if needed
     if (photo.startsWith("http")) {
-      return photo;
+      // Replace old api.boostke.co.ke with current domain
+      return photo
+        .replace("http://api.boostke.co.ke/uploads/", "https://boostke.co.ke/uploads/")
+        .replace("https://api.boostke.co.ke/uploads/", "https://boostke.co.ke/uploads/")
+        .replace("http://boostke.co.ke/uploads/", "https://boostke.co.ke/uploads/");
     }
-    return `${BASE_URL.replace(/\/$/, "")}/${photo}`;
+    
+    // For relative paths, use current BASE_URL
+    return `${BASE_URL}${photo.startsWith('/') ? photo : '/uploads/' + photo}`;
   };
 
   const getCurrentResults = () => {
@@ -225,21 +234,21 @@ function Search() {
           height: viewMode === 'list' ? 150 : 300,
           display: 'flex',
           flexDirection: viewMode === 'list' ? 'row' : 'column',
-          cursor: 'pointer',
           '&:hover': { transform: 'translateY(-2px)' },
           transition: 'transform 0.2s'
         }}
-        onClick={() => navigate(getItemLink())}
       >
         <CardMedia
           component="img"
           sx={{
             width: viewMode === 'list' ? 150 : '100%',
             height: viewMode === 'list' ? 150 : 200,
-            objectFit: 'cover'
+            objectFit: 'cover',
+            cursor: 'pointer'
           }}
           image={getItemImage()}
           alt={item.title}
+          onClick={() => navigate(getItemLink())}
         />
         <CardContent sx={{ flex: 1, p: 2 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
@@ -255,7 +264,17 @@ function Search() {
             )}
           </Box>
           
-          <Typography variant="h6" noWrap sx={{ fontSize: '1rem', fontWeight: 600 }}>
+          <Typography 
+            variant="h6" 
+            noWrap 
+            sx={{ 
+              fontSize: '1rem', 
+              fontWeight: 600, 
+              cursor: 'pointer',
+              '&:hover': { textDecoration: 'underline' }
+            }}
+            onClick={() => navigate(getItemLink())}
+          >
             {item.title || item.shop_name}
           </Typography>
           
@@ -292,6 +311,23 @@ function Search() {
             <Typography variant="caption" color="text.secondary" sx={{ mt: 1 }}>
               {item.view_count || item.views_count} views
             </Typography>
+          )}
+
+          {/* Add to Cart Button for Listings/Products only */}
+          {isListing && item.price && (
+            <Box sx={{ mt: 1 }}>
+              <AddToCart
+                listing={{
+                  listing_id: item.listing_id || item.id,
+                  title: item.title,
+                  price: item.price,
+                  item_type: 'product'
+                }}
+                variant="button"
+                size="small"
+                showQuantity={true}
+              />
+            </Box>
           )}
         </CardContent>
       </Card>

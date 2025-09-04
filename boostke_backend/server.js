@@ -46,6 +46,14 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "./uploads")));
 
+// Image proxy for handling missing images
+const imageProxyRouter = require("./routes/images/imageProxy");
+app.use("/uploads", imageProxyRouter);
+
+// Image blob router for serving images as blob data
+const imageBlobRouter = require("./routes/images/imageBlob");
+app.use("/api/images", imageBlobRouter);
+
 //Test Server
 app.get("/api", (req, res) => {
   res.send("BOOSTKE server running ✅!");

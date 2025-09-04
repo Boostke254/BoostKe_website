@@ -2,8 +2,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import FallbackImage from "./FallbackImage";
 
-const Carousel = ({ photos, onImageClick }) => {
+const Carousel = ({ photos, onImageClick, category = "default" }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handlePrev = () => {
@@ -24,17 +25,22 @@ const Carousel = ({ photos, onImageClick }) => {
       <div className="relative w-full h-64 md:h-100 mb-4">
         <div className="overflow-hidden rounded-md border border-gray-100 shadow-sm h-full">
           <AnimatePresence initial={false} mode="wait">
-            <motion.img
+            <motion.div
               key={photos[currentIndex]}
-              src={photos[currentIndex]}
-              alt={`Slide ${currentIndex + 1}`}
-              className="w-full h-64 md:h-100 object-cover cursor-pointer"
+              className="w-full h-64 md:h-100"
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -100 }}
               transition={{ duration: 0.5 }}
-              onClick={() => onImageClick(photos[currentIndex])}
-            />
+            >
+              <FallbackImage
+                src={photos[currentIndex]}
+                alt={`Slide ${currentIndex + 1}`}
+                className="w-full h-64 md:h-100 object-cover cursor-pointer"
+                category={category}
+                onClick={() => onImageClick(photos[currentIndex])}
+              />
+            </motion.div>
           </AnimatePresence>
         </div>
 
@@ -65,10 +71,11 @@ const Carousel = ({ photos, onImageClick }) => {
                 : "border-transparent hover:border-gray-300"
             }`}
           >
-            <img
+            <FallbackImage
               src={photo}
               alt={`Thumbnail ${index + 1}`}
               className="w-full h-full object-cover"
+              category={category}
             />
           </button>
         ))}

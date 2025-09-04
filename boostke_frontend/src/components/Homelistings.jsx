@@ -9,6 +9,9 @@ import axios from "../api/axios";
 import Skeleton from "@mui/material/Skeleton";
 import CircularProgress from "@mui/material/CircularProgress";
 import { BASE_URL } from "../api/axios";
+import FallbackImage from "./FallbackImage";
+import AddToCart from "./AddToCart";
+import { Box } from "@mui/material";
 
 function Homelistings({ selectedCounty, selectedPriceRange, selectedSort }) {
   const navigate = useNavigate();
@@ -153,12 +156,24 @@ function Homelistings({ selectedCounty, selectedPriceRange, selectedSort }) {
   };
 
   const getPhotoUrl = (photo) => {
-    // If the photo already starts with 'http', return as is
+    if (!photo) return '/placeholder-image.jpg';
+    
+    // If photo is already a full URL, handle it appropriately
     if (photo.startsWith("http")) {
-      return photo;
+      // For local development, ensure localhost URLs work
+      if (photo.includes("localhost:5000")) {
+        return photo;
+      }
+      // Replace production URLs with localhost for development
+      return photo
+        .replace("http://api.boostke.co.ke/uploads/", "http://localhost:5000/uploads/")
+        .replace("https://api.boostke.co.ke/uploads/", "http://localhost:5000/uploads/")
+        .replace("http://boostke.co.ke/uploads/", "http://localhost:5000/uploads/")
+        .replace("https://boostke.co.ke/uploads/", "http://localhost:5000/uploads/");
     }
-    // Otherwise, prepend the base URL
-    return `${BASE_URL}${photo}`;
+    
+    // For relative paths, use current BASE_URL
+    return `${BASE_URL}${photo.startsWith('/') ? photo : '/uploads/' + photo}`;
   };
 
   const filteredAndSortedListings = sortedListings();
@@ -177,35 +192,52 @@ function Homelistings({ selectedCounty, selectedPriceRange, selectedSort }) {
               }
 
               return (
-                <NavLink
+                <div
                   className="product"
-                  onClick={() => {
-                    window.location.href = `/view/${listing.title}/${listing.listing_id}`;
-                  }}
                   key={listing.listing_id}
                 >
-                  <div className="img">
-                    <div className="h-full">
-                      <LazyLoadImage
-                        src={getPhotoUrl(listingImage)}
-                        alt={listing.title}
-                        effect="blur"
-                        className="!w-full !h-full object-cover" // force Tailwind classes
-                        wrapperClassName="w-full h-full" // set wrapper size explicitly
-                      />
+                  <NavLink
+                    onClick={() => {
+                      window.location.href = `/view/${listing.title}/${listing.listing_id}`;
+                    }}
+                  >
+                    <div className="img">
+                      <div className="h-full">
+                        <FallbackImage
+                          src={getPhotoUrl(listingImage)}
+                          alt={listing.title}
+                          className="!w-full !h-full object-cover"
+                          category={listing.category}
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div className="listing_details">
-                    <p className="listing_title">{listing.title}</p>
-                    <p className="listing_details_amount">
-                      Ksh {parseFloat(listing.price).toLocaleString("en-US")}
-                    </p>
-                    <p>
-                      <LocationOnIcon fontSize="12" />
-                      {listing.location}
-                    </p>
-                  </div>
-                </NavLink>
+                    <div className="listing_details">
+                      <p className="listing_title">{listing.title}</p>
+                      <p className="listing_details_amount">
+                        Ksh {parseFloat(listing.price).toLocaleString("en-US")}
+                      </p>
+                      <p>
+                        <LocationOnIcon fontSize="12" />
+                        {listing.location}
+                      </p>
+                    </div>
+                  </NavLink>
+                  
+                  {/* Add to Cart Button */}
+                  <Box sx={{ p: 1 }}>
+                    <AddToCart
+                      listing={{
+                        listing_id: listing.listing_id,
+                        title: listing.title,
+                        price: listing.price,
+                        item_type: 'product'
+                      }}
+                      variant="button"
+                      size="small"
+                      showQuantity={true}
+                    />
+                  </Box>
+                </div>
               );
             })
           ) : (

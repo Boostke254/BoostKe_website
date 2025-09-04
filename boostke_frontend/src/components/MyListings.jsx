@@ -52,10 +52,19 @@ const MyListings = ({ profileEmail }) => {
   }, [axiosPrivate, profileEmail]);
 
   const getPhotoUrl = (photo) => {
+    if (!photo) return '/placeholder-image.jpg';
+    
+    // If photo is already a full URL, fix the domain if needed
     if (photo.startsWith("http")) {
-      return photo;
+      // Replace old api.boostke.co.ke with current domain
+      return photo
+        .replace("http://api.boostke.co.ke/uploads/", "https://boostke.co.ke/uploads/")
+        .replace("https://api.boostke.co.ke/uploads/", "https://boostke.co.ke/uploads/")
+        .replace("http://boostke.co.ke/uploads/", "https://boostke.co.ke/uploads/");
     }
-    return `${BASE_URL}${photo}`;
+    
+    // For relative paths, use current BASE_URL
+    return `${BASE_URL}${photo.startsWith('/') ? photo : '/uploads/' + photo}`;
   };
 
   const handleDelete = async (title, listing_id) => {
