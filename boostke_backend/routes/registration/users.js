@@ -17,7 +17,7 @@ const pool = require("../../db");
 
 const router = express.Router();
 
-// ðŸ›¡ï¸ Session Middleware
+// 🛡️ Session Middleware
 router.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -29,7 +29,7 @@ router.use(
 router.use(passport.initialize());
 router.use(passport.session());
 
-// ðŸ›¡ï¸ Passport Serialization
+// 🛡️ Passport Serialization
 passport.serializeUser((user, done) => done(null, user.user_id));
 passport.deserializeUser(async (id, done) => {
   try {
@@ -42,7 +42,7 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-// ðŸ›¡ï¸ Google OAuth Strategy
+// 🛡️ Google OAuth Strategy
 passport.use(
   new GoogleStrategy(
     {
@@ -75,20 +75,26 @@ passport.use(
   )
 );
 
+// 🛡️ Google OAuth Routes (moved to correct position)
 router.get(
-  "/google/callback",
-  passport.authenticate("google", {
-    failureRedirect: "/login", // Adjust as needed
-  }),
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+router.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
   (req, res) => {
-    res.redirect("/"); // Adjust as needed
+    res.redirect("/dashboard");
   }
 );
 
+// Fixed Google token verification route
 router.post("/user/google", async (req, res) => {
   const { token } = req.body;
 
   try {
+    // Verify the Google ID token
     const ticket = await client.verifyIdToken({
       idToken: token,
       audience: process.env.GOOGLE_CLIENT_ID,
@@ -101,42 +107,45 @@ router.post("/user/google", async (req, res) => {
       return res.status(400).json({ error: "Email not verified by Google" });
     }
 
+    // Check if user exists
     let user = await pool.query("SELECT * FROM users WHERE email = $1", [
       email,
     ]);
 
     if (user.rows.length === 0) {
+      // Create new user if doesn't exist
       const dummyPassword = crypto.randomBytes(16).toString("hex");
+      const hashedPassword = await bcrypt.hash(dummyPassword, 10);
 
-      await pool.query(
+      const newUserResult = await pool.query(
         "INSERT INTO users (full_name, email, photo_url, password, is_verified) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-        [payload.name, email, payload.picture, dummyPassword, true]
+        [payload.name, email, payload.picture, hashedPassword, true]
       );
 
-      // user = await pool.query(
-      //   "INSERT INTO users (full_name, email, photo_url, is_verified) VALUES ($1, $2, $3, $4) RETURNING *",
-      //   [payload.name, email, payload.picture, true]
-      // );
+      user = newUserResult;
     } else if (user.rows[0].is_verified === false) {
+      // Update verification status if user exists but not verified
       await pool.query("UPDATE users SET is_verified = true WHERE email = $1", [
         email,
       ]);
     }
 
+    // Get the user data (either newly created or existing)
     const userResult = await pool.query(
       "SELECT * FROM users WHERE email = $1",
       [email]
     );
     const normal_user = userResult.rows[0];
 
+    // Generate JWT token
     const jwtToken = jwt.sign(
       { user_id: normal_user.user_id, email: normal_user.email },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "24h" } // Extended to 24 hours for better UX
     );
 
     res.status(200).json({
-      message: "User authenticated",
+      message: "User authenticated successfully",
       token: jwtToken,
       user: {
         user_id: normal_user.user_id,
@@ -151,70 +160,8 @@ router.post("/user/google", async (req, res) => {
     });
   } catch (err) {
     console.error("Google token verification error:", err.message);
-    res.status(400).json({ error: "Invalid token" });
+    res.status(400).json({ error: "Invalid token or authentication failed" });
   }
-
-  // try {
-  //   const ticket = await client.verifyIdToken({
-  //     idToken: token,
-  //     audience: process.env.GOOGLE_CLIENT_ID,
-  //   });
-
-  //   const payload = ticket.getPayload();
-  //   const email = payload.email;
-
-  //   let user = await pool.query("SELECT * FROM users WHERE email = $1", [
-  //     email,
-  //   ]);
-
-  //   if (user.rows[0].is_verified === false) {
-  //     await pool.query("UPDATE users SET is_verified = true WHERE email = $1", [
-  //       email,
-  //     ]);
-  //   }
-
-  //   // console.log(payload);
-  //   // console.log(user.rows[0]);
-
-  //   if (user.rows.length === 0) {
-  //     user = await pool.query(
-  //       "INSERT INTO users (full_name, email, photo_url, is_verified) VALUES ($1, $2, $3, $4) RETURNING *",
-  //       [payload.name, email, payload.picture, true]
-  //     );
-  //   }
-
-  //   const userResult = await pool.query(
-  //     "SELECT * FROM users WHERE email = $1",
-  //     [email]
-  //   );
-
-  //   const normal_user = userResult.rows[0];
-
-  //   // Generate JWT token
-  //   const jwtToken = jwt.sign(
-  //     { user_id: normal_user.user_id, email: normal_user.email },
-  //     process.env.JWT_SECRET,
-  //     { expiresIn: "1h" }
-  //   );
-
-  //   res.status(200).json({
-  //     message: "User authenticated",
-  //     token: jwtToken,
-  //     user: {
-  //       user_id: normal_user.user_id,
-  //       full_name: normal_user.full_name,
-  //       email: normal_user.email,
-  //       mobile: normal_user.mobile,
-  //       balance: normal_user.balance,
-  //       is_verified: normal_user.is_verified,
-  //       created_at: normal_user.created_at,
-  //       account_deactivate: normal_user.account_deactivate,
-  //     },
-  //   });
-  // } catch (err) {
-  //   console.log(err);
-  //   res.status(400).json({ error: "Invalid token" });
-  // }
 });
 
 /**
@@ -226,7 +173,27 @@ router.post("/register", async (req, res) => {
   const { full_Name, email, mobile, password } = req.body;
 
   try {
-    // ðŸ›¡ï¸ Check if the email already exists
+    // Input validation
+    if (!full_Name || !email || !password) {
+      return res.status(400).json({ 
+        error: "Full name, email, and password are required" 
+      });
+    }
+
+    // Email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ error: "Invalid email format" });
+    }
+
+    // Password strength validation
+    if (password.length < 6) {
+      return res.status(400).json({ 
+        error: "Password must be at least 6 characters long" 
+      });
+    }
+
+    // 🛡️ Check if the email already exists
     const emailCheck = await pool.query(
       "SELECT * FROM users WHERE email = $1",
       [email]
@@ -236,24 +203,25 @@ router.post("/register", async (req, res) => {
       return res.status(400).json({ error: "Email already registered" });
     }
 
-    // ðŸ”’ Hash the password
+    // 🔒 Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // ðŸ”‘ Generate a verification code
+    // 🔐 Generate a verification code
     const verificationCode = crypto.randomInt(100000, 999999); // 6-digit code
 
-    // ðŸ’¾ Save user with verification code
+    // 💾 Save user with verification code
     const result = await pool.query(
-      `INSERT INTO users (full_Name, email, mobile, password, verification_code, is_verified) 
+      `INSERT INTO users (full_name, email, mobile, password, verification_code, is_verified) 
        VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
       [full_Name, email, mobile, hashedPassword, verificationCode, false]
     );
 
-    // ðŸ“§ Send verification email
-    await sendEmail(
-      email,
-      "Verify Your Account",
-      `<!DOCTYPE html>
+    // 📧 Send verification email
+    try {
+      await sendEmail(
+        email,
+        "Verify Your Account",
+        `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -366,17 +334,25 @@ router.post("/register", async (req, res) => {
   </body>
 </html>
 `,
-      null
-    );
+        null
+      );
+      console.log("Verification email sent successfully");
+    } catch (emailError) {
+      console.error("Failed to send verification email:", emailError.message);
+      // Continue with registration even if email fails
+    }
 
     res.status(201).json({
-      message: "User registered successfully. Verification email sent.",
+      message: "User registered successfully. Please check your email for verification code.",
+      note: "If you don't receive the email, you can request a new verification code later.",
+      // Remove verification code from response in production
+      ...(process.env.NODE_ENV === 'development' && { verificationCode: verificationCode })
     });
   } catch (err) {
     console.error("Error registering user:", err.message);
     res.status(500).json({
       error: "User registration failed",
-      details: err.message,
+      details: process.env.NODE_ENV === 'development' ? err.message : 'Internal server error',
     });
   }
 });
@@ -390,17 +366,25 @@ router.post("/verify", async (req, res) => {
   const { email, verificationCode } = req.body;
 
   try {
-    // ðŸ›¡ï¸ Validate request data
+    // 🛡️ Validate request data
     if (!email || !verificationCode) {
       return res
         .status(400)
         .json({ error: "Email and verification code are required." });
     }
 
-    // ðŸ” Check if the user exists with the provided email and code
+    // Convert verificationCode to number for comparison
+    const code = parseInt(verificationCode);
+    if (isNaN(code)) {
+      return res
+        .status(400)
+        .json({ error: "Invalid verification code format." });
+    }
+
+    // 🔍 Check if the user exists with the provided email and code
     const user = await pool.query(
       "SELECT * FROM users WHERE email = $1 AND verification_code = $2",
-      [email, verificationCode]
+      [email, code]
     );
 
     if (user.rows.length === 0) {
@@ -409,7 +393,7 @@ router.post("/verify", async (req, res) => {
         .json({ error: "Invalid verification code or email." });
     }
 
-    // âœ… Mark account as verified and clear the verification code
+    // ✅ Mark account as verified and clear the verification code
     await pool.query(
       "UPDATE users SET is_verified = true, verification_code = NULL WHERE email = $1",
       [email]
@@ -422,12 +406,11 @@ router.post("/verify", async (req, res) => {
     console.error("Error verifying user:", err.message);
     res.status(500).json({
       error: "Failed to verify account",
-      details: err.message,
+      details: process.env.NODE_ENV === 'development' ? err.message : 'Internal server error',
     });
   }
 });
 
-//resend verification code
 /**
  * @route POST /resend-verification-code
  * @description Resend verification code to the user's email
@@ -437,12 +420,12 @@ router.post("/resend-verification-code", async (req, res) => {
   const { email } = req.body;
 
   try {
-    // ðŸ›¡ï¸ Validate request data
+    // 🛡️ Validate request data
     if (!email) {
       return res.status(400).json({ error: "Email is required." });
     }
 
-    // ðŸ” Check if the user exists
+    // 🔍 Check if the user exists
     const user = await pool.query("SELECT * FROM users WHERE email = $1", [
       email,
     ]);
@@ -455,20 +438,21 @@ router.post("/resend-verification-code", async (req, res) => {
       return res.status(400).json({ error: "Account is already verified." });
     }
 
-    // ðŸ”‘ Generate a new verification code
+    // 🔐 Generate a new verification code
     const newVerificationCode = crypto.randomInt(100000, 999999);
 
-    // ðŸ’¾ Update the user's verification code in the database
+    // 💾 Update the user's verification code in the database
     await pool.query(
       "UPDATE users SET verification_code = $1 WHERE email = $2",
       [newVerificationCode, email]
     );
 
-    // ðŸ“§ Resend verification email
-    await sendEmail(
-      email,
-      "Resend Verification Code",
-      `<!DOCTYPE html>
+    // 📧 Resend verification email
+    try {
+      await sendEmail(
+        email,
+        "Resend Verification Code",
+        `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -560,8 +544,7 @@ router.post("/resend-verification-code", async (req, res) => {
         <h2>Account Verification</h2>
         <p>Hello <strong>${user.rows[0].full_name}</strong>,</p>
         <p>
-          Thank you for registering with <strong>BoostKE</strong>. Please use
-          the code below to verify your account:
+          Here is your new verification code for <strong>BoostKE</strong>:
         </p>
         <div class="verification-code">${newVerificationCode}</div>
         <p>
@@ -581,8 +564,16 @@ router.post("/resend-verification-code", async (req, res) => {
   </body>
 </html>
 `,
-      null
-    );
+        null
+      );
+      console.log("Verification code resent successfully");
+    } catch (emailError) {
+      console.error("Failed to resend verification email:", emailError.message);
+      return res.status(500).json({
+        error: "Failed to send verification email",
+        details: process.env.NODE_ENV === 'development' ? emailError.message : 'Internal server error',
+      });
+    }
 
     res.status(200).json({
       message: "A new verification code has been sent to your email.",
@@ -591,23 +582,9 @@ router.post("/resend-verification-code", async (req, res) => {
     console.error("Error resending verification code:", err.message);
     res.status(500).json({
       error: "Failed to resend verification code",
-      details: err.message,
+      details: process.env.NODE_ENV === 'development' ? err.message : 'Internal server error',
     });
   }
 });
-
-// ðŸ›¡ï¸ Google OAuth Routes
-router.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
-
-router.get(
-  "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
-  (req, res) => {
-    res.redirect("/dashboard");
-  }
-);
 
 module.exports = router;

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Helmet } from "react-helmet";
+import { useNavigate } from 'react-router-dom';
 import { counties } from "../components/Counties.js";
 import "../css/style.css";
 import heroImage from "../images/happy-people-Boost-KE.jpg";
@@ -15,8 +16,10 @@ import CampaignIcon from "@mui/icons-material/Campaign";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import HomeWorkIcon from "@mui/icons-material/HomeWork";
 import StorefrontIcon from "@mui/icons-material/Storefront";
+import GroupIcon from "@mui/icons-material/Group";
 
 const Franchise = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -210,6 +213,45 @@ const Franchise = () => {
                 <div className="absolute bottom-8 left-8 w-24 h-16 border-4 border-[#FFA500] rounded-lg transform rotate-6"></div>
                 <div className="absolute bottom-16 left-20 w-16 h-24 border-4 border-[#FFA500] rounded-lg transform -rotate-12"></div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Success Partners Section */}
+      <section className="px-2 md:px-[77px] py-16 bg-gradient-to-br from-gray-50 to-orange-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center">
+            <div className="bg-white rounded-2xl p-8 md:p-12 shadow-lg border border-gray-100 max-w-4xl mx-auto">
+              <div className="mb-6">
+                <GroupIcon sx={{ fontSize: 48, color: "#FFA500" }} />
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-[#1B1C1E] mb-4 font-['Mada',sans-serif]">
+                Meet Our <span className="text-[#FFA500]">Success Partners</span>
+              </h2>
+              <p className="text-lg text-[#7E7E7E] max-w-3xl mx-auto mb-8">
+                Discover how our franchise partners are transforming their communities and building successful businesses across Kenya. From microhubs to premium business complexes, see the diversity of opportunities available.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-[#FFA500] mb-2">4</div>
+                  <div className="text-sm text-[#7E7E7E]">Success Partners</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-[#FFA500] mb-2">3</div>
+                  <div className="text-sm text-[#7E7E7E]">Business Categories</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-[#FFA500] mb-2">100%</div>
+                  <div className="text-sm text-[#7E7E7E]">Success Rate</div>
+                </div>
+              </div>
+              <button 
+                onClick={() => navigate('/success-partners')}
+                className="bg-gradient-to-r from-[#FFA500] to-[#FF8C00] text-white font-bold py-4 px-8 rounded-lg hover:from-[#FF8C00] hover:to-[#FF7700] transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl text-lg"
+              >
+                Meet Our Success Partners
+              </button>
             </div>
           </div>
         </div>

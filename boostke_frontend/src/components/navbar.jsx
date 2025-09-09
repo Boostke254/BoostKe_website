@@ -69,6 +69,11 @@ function Navbar() {
             KNCCI
           </NavLink>
         </li>
+        <li>
+          <NavLink className={linkClasses} to="/blog">
+            Blog
+          </NavLink>
+        </li>
       </ul>
     </nav>
   );

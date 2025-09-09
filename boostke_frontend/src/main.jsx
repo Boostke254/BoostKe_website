@@ -34,12 +34,16 @@ import RequireAuth from "./pages/RequireAuth";
 import Verification from "./pages/verificationPage";
 import Franchise from "./pages/franchise";
 import KNCCI from "./pages/kncci";
+import SuccessPartners from "./pages/SuccessPartners";
 import { useAuth } from "./context/AuthProvider";
 
 import { AuthProvider } from "./context/AuthProvider";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Freelancers from "./pages/Freelancers";
 import Innovators from "./pages/Innovators";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
+import BlogAdmin from "./pages/BlogAdmin";
 
 const router = createBrowserRouter([
   {
@@ -77,12 +81,32 @@ const router = createBrowserRouter([
         element: <Franchise />,
       },
       {
+        path: "/success-partners",
+        element: <SuccessPartners />,
+      },
+      {
         path: "/kncci",
         element: <KNCCI />,
       },
       {
         path: "/innovators",
         element: <Innovators />,
+      },
+      {
+        path: "/blog",
+        element: <Blog />, 
+      },
+      {
+        path: "/blog/:postId",
+        element: <BlogPost />, 
+      },
+      {
+        path: "/blog-admin",
+        element: (
+          <RequireAuth>
+            <BlogAdmin />
+          </RequireAuth>
+        ),
       },
       {
         path: "/coming-soon",

@@ -104,6 +104,10 @@ app.use("/api/user", userResetRouter);
 app.use("/api/retailer", retailerResetRouter);
 app.use("/api/landlord", landlordResetRouter);
 
+// Blog routes
+const blogRouter = require("./routes/blog/blog");
+app.use("/api/blog", blogRouter);
+
 //edit profile
 const userEditRouter = require("./routes/users/editProfile");
 const retailerEditRouter = require("./routes/retailers/editProfile");
