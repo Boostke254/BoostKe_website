@@ -4,6 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import "../css/style.css";
 import royalbusinessImg from '../images/royalbusiness.png';
 import ridgewaysImg from '../images/ridgeways.png';
+import waterRefillingImg from '../images/water-refilling-station-2.png';
+import waterImg from '../images/water.jpg';
+import kelvinEnterpriseImg from '../images/collov-home-design-HxRvdKHVAYY-unsplash.jpg';
+import ridgewaysAdditionalImg from '../images/images (5).jfif';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -57,7 +61,7 @@ const SuccessPartners = () => {
           name: "Ridgeways Gardens",
           category: "City Franchise",
           description: "Garden, hotel and bar with premium hospitality services",
-          image: ridgewaysImg,
+          image: ridgewaysAdditionalImg,
           services: ["Garden Services", "Hotel Accommodation", "Bar & Restaurant", "Event Venue"],
           location: "Ridgeways, Nairobi",
           phone: "+254 700 000 001",
@@ -81,7 +85,7 @@ const SuccessPartners = () => {
           name: "Kelvin Enterprise",
           category: "MicroHub",
           description: "Kitchen, home accessories and Davis & Shirtliff agent",
-          image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+          image: kelvinEnterpriseImg,
           services: ["Kitchen Equipment", "Home Accessories", "Water Systems", "Technical Support"],
           location: "Nairobi, Kenya",
           phone: "+254 700 000 002",
@@ -95,7 +99,7 @@ const SuccessPartners = () => {
           name: "Aquarium Water Services",
           category: "MicroHub",
           description: "Water refilling centre - our microhub 001",
-          image: "https://images.unsplash.com/photo-1571068316344-75bc76f77890?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+          image: waterRefillingImg,
           services: ["Water Refilling", "Water Delivery", "Water Quality Testing", "Tank Cleaning"],
           location: "Nairobi, Kenya",
           phone: "+254 700 000 003",
