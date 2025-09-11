@@ -156,8 +156,10 @@ function Homelistings({ selectedCounty, selectedPriceRange, selectedSort }) {
   };
 
   const getPhotoUrl = (photo) => {
-    if (!photo) return '/placeholder-image.jpg';
-    
+    if (!photo) return "/placeholder-image.jpg";
+
+    console.log("Original photo URL:", photo);
+
     // If photo is already a full URL, handle it appropriately
     if (photo.startsWith("http")) {
       // For local development, ensure localhost URLs work
@@ -166,14 +168,14 @@ function Homelistings({ selectedCounty, selectedPriceRange, selectedSort }) {
       }
       // Replace production URLs with localhost for development
       return photo
-        .replace("http://api.boostke.co.ke/uploads/", "http://localhost:5000/uploads/")
-        .replace("https://api.boostke.co.ke/uploads/", "http://localhost:5000/uploads/")
-        .replace("http://boostke.co.ke/uploads/", "http://localhost:5000/uploads/")
-        .replace("https://boostke.co.ke/uploads/", "http://localhost:5000/uploads/");
+        .replace("http://api.boostke.co.ke/uploads/", "http://localhost:5000")
+        .replace("https://api.boostke.co.ke/uploads/", "http://localhost:5000")
+        .replace("http://boostke.co.ke/uploads/", "http://localhost:5000")
+        .replace("https://boostke.co.ke/uploads/", "http://localhost:5000");
     }
-    
+
     // For relative paths, use current BASE_URL
-    return `${BASE_URL}${photo.startsWith('/') ? photo : '/uploads/' + photo}`;
+    return `${BASE_URL}${photo.startsWith("/") ? photo : "/uploads/" + photo}`;
   };
 
   const filteredAndSortedListings = sortedListings();
@@ -192,10 +194,7 @@ function Homelistings({ selectedCounty, selectedPriceRange, selectedSort }) {
               }
 
               return (
-                <div
-                  className="product"
-                  key={listing.listing_id}
-                >
+                <div className="product" key={listing.listing_id}>
                   <NavLink
                     onClick={() => {
                       window.location.href = `/view/${listing.title}/${listing.listing_id}`;
@@ -222,7 +221,7 @@ function Homelistings({ selectedCounty, selectedPriceRange, selectedSort }) {
                       </p>
                     </div>
                   </NavLink>
-                  
+
                   {/* Add to Cart Button */}
                   <Box sx={{ p: 1 }}>
                     <AddToCart
@@ -230,7 +229,7 @@ function Homelistings({ selectedCounty, selectedPriceRange, selectedSort }) {
                         listing_id: listing.listing_id,
                         title: listing.title,
                         price: listing.price,
-                        item_type: 'product'
+                        item_type: "product",
                       }}
                       variant="button"
                       size="small"

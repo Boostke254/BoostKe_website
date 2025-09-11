@@ -1,4 +1,6 @@
-import React from "react";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
+
 import "./css/index.css";
 import App from "./App";
 import ReactDOM from "react-dom/client";
@@ -94,11 +96,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/blog",
-        element: <Blog />, 
+        element: <Blog />,
       },
       {
         path: "/blog/:postId",
-        element: <BlogPost />, 
+        element: <BlogPost />,
       },
       {
         path: "/blog-admin",

@@ -1,17 +1,17 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const db = require('../../db');
+const db = require("../../db");
 
 // Get all blog posts with pagination and filtering
-router.get('/posts', async (req, res) => {
+router.get("/posts", async (req, res) => {
   try {
     const {
       page = 1,
       limit = 9,
       category,
       search,
-      sort = 'newest',
-      featured
+      sort = "newest",
+      featured,
     } = req.query;
 
     const offset = (page - 1) * limit;
@@ -48,19 +48,19 @@ router.get('/posts', async (req, res) => {
     }
 
     // Add featured filter
-    if (featured === 'true') {
+    if (featured === "true") {
       query += ` AND p.featured = true`;
     }
 
     // Add sorting
     switch (sort) {
-      case 'oldest':
+      case "oldest":
         query += ` ORDER BY p.published_at ASC`;
         break;
-      case 'popular':
+      case "popular":
         query += ` ORDER BY p.views DESC`;
         break;
-      case 'liked':
+      case "liked":
         query += ` ORDER BY likes_count DESC`;
         break;
       default: // newest
@@ -72,7 +72,7 @@ router.get('/posts', async (req, res) => {
     queryParams.push(limit, offset);
 
     const result = await db.query(query, queryParams);
-    
+
     // Get total count for pagination
     let countQuery = `
       SELECT COUNT(*) 
@@ -80,22 +80,22 @@ router.get('/posts', async (req, res) => {
       LEFT JOIN categories c ON p.category_id = c.id
       WHERE p.published = true
     `;
-    
+
     const countParams = [];
     let countParamIndex = 1;
-    
+
     if (category) {
       countQuery += ` AND c.slug = $${countParamIndex}`;
       countParams.push(category);
       countParamIndex++;
     }
-    
+
     if (search) {
       countQuery += ` AND (p.title ILIKE $${countParamIndex} OR p.excerpt ILIKE $${countParamIndex} OR p.content ILIKE $${countParamIndex})`;
       countParams.push(`%${search}%`);
     }
-    
-    if (featured === 'true') {
+
+    if (featured === "true") {
       countQuery += ` AND p.featured = true`;
     }
 
@@ -110,20 +110,20 @@ router.get('/posts', async (req, res) => {
         totalPages,
         totalPosts,
         hasNext: page < totalPages,
-        hasPrev: page > 1
-      }
+        hasPrev: page > 1,
+      },
     });
   } catch (error) {
-    console.error('Error fetching blog posts:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error fetching blog posts:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 // Get single blog post by ID
-router.get('/posts/:id', async (req, res) => {
+router.get("/posts/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    
+
     const query = `
       SELECT 
         p.*,
@@ -141,9 +141,9 @@ router.get('/posts/:id', async (req, res) => {
     `;
 
     const result = await db.query(query, [id]);
-    
+
     if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Post not found' });
+      return res.status(404).json({ error: "Post not found" });
     }
 
     const post = result.rows[0];
@@ -156,10 +156,12 @@ router.get('/posts/:id', async (req, res) => {
       WHERE pt.post_id = $1
     `;
     const tagsResult = await db.query(tagsQuery, [id]);
-    post.tags = tagsResult.rows.map(row => row.name);
+    post.tags = tagsResult.rows.map((row) => row.name);
 
     // Increment view count
-    await db.query('UPDATE blog_posts SET views = views + 1 WHERE id = $1', [id]);
+    await db.query("UPDATE blog_posts SET views = views + 1 WHERE id = $1", [
+      id,
+    ]);
 
     // Get related posts
     const relatedQuery = `
@@ -174,16 +176,16 @@ router.get('/posts/:id', async (req, res) => {
 
     res.json({
       post,
-      relatedPosts: relatedResult.rows
+      relatedPosts: relatedResult.rows,
     });
   } catch (error) {
-    console.error('Error fetching blog post:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error fetching blog post:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 // Create new blog post (admin only)
-router.post('/posts', async (req, res) => {
+router.post("/posts", async (req, res) => {
   try {
     const {
       title,
@@ -195,12 +197,12 @@ router.post('/posts', async (req, res) => {
       tags,
       published = false,
       featured = false,
-      read_time
+      read_time,
     } = req.body;
 
     // Validate required fields
     if (!title || !excerpt || !content || !category_id || !author_id) {
-      return res.status(400).json({ error: 'Missing required fields' });
+      return res.status(400).json({ error: "Missing required fields" });
     }
 
     const query = `
@@ -218,7 +220,7 @@ router.post('/posts', async (req, res) => {
       featured_image,
       published,
       featured,
-      read_time
+      read_time,
     ]);
 
     const postId = result.rows[0].id;
@@ -237,21 +239,26 @@ router.post('/posts', async (req, res) => {
 
         // Link tag to post
         await db.query(
-          'INSERT INTO blog_post_tags (post_id, tag_id) VALUES ($1, $2)',
+          "INSERT INTO blog_post_tags (post_id, tag_id) VALUES ($1, $2)",
           [postId, tagId]
         );
       }
     }
 
-    res.status(201).json({ message: 'Blog post created successfully', post: result.rows[0] });
+    res
+      .status(201)
+      .json({
+        message: "Blog post created successfully",
+        post: result.rows[0],
+      });
   } catch (error) {
-    console.error('Error creating blog post:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error creating blog post:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 // Update blog post (admin only)
-router.put('/posts/:id', async (req, res) => {
+router.put("/posts/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const {
@@ -263,7 +270,7 @@ router.put('/posts/:id', async (req, res) => {
       tags,
       published,
       featured,
-      read_time
+      read_time,
     } = req.body;
 
     const query = `
@@ -283,17 +290,17 @@ router.put('/posts/:id', async (req, res) => {
       published,
       featured,
       read_time,
-      id
+      id,
     ]);
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Post not found' });
+      return res.status(404).json({ error: "Post not found" });
     }
 
     // Update tags
     if (tags) {
       // Remove existing tags
-      await db.query('DELETE FROM blog_post_tags WHERE post_id = $1', [id]);
+      await db.query("DELETE FROM blog_post_tags WHERE post_id = $1", [id]);
 
       // Add new tags
       for (const tagName of tags) {
@@ -306,105 +313,123 @@ router.put('/posts/:id', async (req, res) => {
         const tagId = tagResult.rows[0].id;
 
         await db.query(
-          'INSERT INTO blog_post_tags (post_id, tag_id) VALUES ($1, $2)',
+          "INSERT INTO blog_post_tags (post_id, tag_id) VALUES ($1, $2)",
           [id, tagId]
         );
       }
     }
 
-    res.json({ message: 'Blog post updated successfully', post: result.rows[0] });
+    res.json({
+      message: "Blog post updated successfully",
+      post: result.rows[0],
+    });
   } catch (error) {
-    console.error('Error updating blog post:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error updating blog post:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 // Delete blog post (admin only)
-router.delete('/posts/:id', async (req, res) => {
+router.delete("/posts/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
     // Delete related data first
-    await db.query('DELETE FROM blog_post_tags WHERE post_id = $1', [id]);
-    await db.query('DELETE FROM blog_comments WHERE post_id = $1', [id]);
-    await db.query('DELETE FROM blog_likes WHERE post_id = $1', [id]);
-    await db.query('DELETE FROM blog_bookmarks WHERE post_id = $1', [id]);
+    await db.query("DELETE FROM blog_post_tags WHERE post_id = $1", [id]);
+    await db.query("DELETE FROM blog_comments WHERE post_id = $1", [id]);
+    await db.query("DELETE FROM blog_likes WHERE post_id = $1", [id]);
+    await db.query("DELETE FROM blog_bookmarks WHERE post_id = $1", [id]);
 
     // Delete the post
-    const result = await db.query('DELETE FROM blog_posts WHERE id = $1 RETURNING *', [id]);
+    const result = await db.query(
+      "DELETE FROM blog_posts WHERE id = $1 RETURNING *",
+      [id]
+    );
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Post not found' });
+      return res.status(404).json({ error: "Post not found" });
     }
 
-    res.json({ message: 'Blog post deleted successfully' });
+    res.json({ message: "Blog post deleted successfully" });
   } catch (error) {
-    console.error('Error deleting blog post:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error deleting blog post:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 // Like/unlike a post
-router.post('/posts/:id/like', async (req, res) => {
+router.post("/posts/:id/like", async (req, res) => {
   try {
     const { id } = req.params;
     const { user_id } = req.body; // This should come from authenticated user
 
     if (!user_id) {
-      return res.status(400).json({ error: 'User ID required' });
+      return res.status(400).json({ error: "User ID required" });
     }
 
     // Check if already liked
     const existingLike = await db.query(
-      'SELECT * FROM blog_likes WHERE post_id = $1 AND user_id = $2',
+      "SELECT * FROM blog_likes WHERE post_id = $1 AND user_id = $2",
       [id, user_id]
     );
 
     if (existingLike.rows.length > 0) {
       // Unlike
-      await db.query('DELETE FROM blog_likes WHERE post_id = $1 AND user_id = $2', [id, user_id]);
-      res.json({ liked: false, message: 'Post unliked' });
+      await db.query(
+        "DELETE FROM blog_likes WHERE post_id = $1 AND user_id = $2",
+        [id, user_id]
+      );
+      res.json({ liked: false, message: "Post unliked" });
     } else {
       // Like
-      await db.query('INSERT INTO blog_likes (post_id, user_id) VALUES ($1, $2)', [id, user_id]);
-      res.json({ liked: true, message: 'Post liked' });
+      await db.query(
+        "INSERT INTO blog_likes (post_id, user_id) VALUES ($1, $2)",
+        [id, user_id]
+      );
+      res.json({ liked: true, message: "Post liked" });
     }
   } catch (error) {
-    console.error('Error toggling like:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error toggling like:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 // Bookmark/unbookmark a post
-router.post('/posts/:id/bookmark', async (req, res) => {
+router.post("/posts/:id/bookmark", async (req, res) => {
   try {
     const { id } = req.params;
     const { user_id } = req.body;
 
     if (!user_id) {
-      return res.status(400).json({ error: 'User ID required' });
+      return res.status(400).json({ error: "User ID required" });
     }
 
     const existingBookmark = await db.query(
-      'SELECT * FROM blog_bookmarks WHERE post_id = $1 AND user_id = $2',
+      "SELECT * FROM blog_bookmarks WHERE post_id = $1 AND user_id = $2",
       [id, user_id]
     );
 
     if (existingBookmark.rows.length > 0) {
-      await db.query('DELETE FROM blog_bookmarks WHERE post_id = $1 AND user_id = $2', [id, user_id]);
-      res.json({ bookmarked: false, message: 'Bookmark removed' });
+      await db.query(
+        "DELETE FROM blog_bookmarks WHERE post_id = $1 AND user_id = $2",
+        [id, user_id]
+      );
+      res.json({ bookmarked: false, message: "Bookmark removed" });
     } else {
-      await db.query('INSERT INTO blog_bookmarks (post_id, user_id) VALUES ($1, $2)', [id, user_id]);
-      res.json({ bookmarked: true, message: 'Post bookmarked' });
+      await db.query(
+        "INSERT INTO blog_bookmarks (post_id, user_id) VALUES ($1, $2)",
+        [id, user_id]
+      );
+      res.json({ bookmarked: true, message: "Post bookmarked" });
     }
   } catch (error) {
-    console.error('Error toggling bookmark:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error toggling bookmark:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 // Get categories
-router.get('/categories', async (req, res) => {
+router.get("/categories", async (req, res) => {
   try {
     const query = `
       SELECT c.*, COUNT(p.id) as post_count
@@ -417,13 +442,13 @@ router.get('/categories', async (req, res) => {
     const result = await db.query(query);
     res.json(result.rows);
   } catch (error) {
-    console.error('Error fetching categories:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error fetching categories:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 // Get comments for a post
-router.get('/posts/:id/comments', async (req, res) => {
+router.get("/posts/:id/comments", async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -438,19 +463,19 @@ router.get('/posts/:id/comments', async (req, res) => {
     const result = await db.query(query, [id]);
     res.json(result.rows);
   } catch (error) {
-    console.error('Error fetching comments:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error fetching comments:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 // Add comment to a post
-router.post('/posts/:id/comments', async (req, res) => {
+router.post("/posts/:id/comments", async (req, res) => {
   try {
     const { id } = req.params;
     const { user_id, content } = req.body;
 
     if (!user_id || !content) {
-      return res.status(400).json({ error: 'User ID and content required' });
+      return res.status(400).json({ error: "User ID and content required" });
     }
 
     const query = `
@@ -460,34 +485,41 @@ router.post('/posts/:id/comments', async (req, res) => {
     `;
 
     const result = await db.query(query, [id, user_id, content]);
-    res.status(201).json({ message: 'Comment added successfully', comment: result.rows[0] });
+    res
+      .status(201)
+      .json({ message: "Comment added successfully", comment: result.rows[0] });
   } catch (error) {
-    console.error('Error adding comment:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error adding comment:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 // Newsletter subscription
-router.post('/newsletter', async (req, res) => {
+router.post("/newsletter", async (req, res) => {
   try {
     const { email } = req.body;
 
     if (!email) {
-      return res.status(400).json({ error: 'Email required' });
+      return res.status(400).json({ error: "Email required" });
     }
 
     // Check if already subscribed
-    const existing = await db.query('SELECT * FROM newsletter_subscribers WHERE email = $1', [email]);
+    const existing = await db.query(
+      "SELECT * FROM newsletter_subscribers WHERE email = $1",
+      [email]
+    );
 
     if (existing.rows.length > 0) {
-      return res.status(400).json({ error: 'Email already subscribed' });
+      return res.status(400).json({ error: "Email already subscribed" });
     }
 
-    await db.query('INSERT INTO newsletter_subscribers (email) VALUES ($1)', [email]);
-    res.json({ message: 'Successfully subscribed to newsletter' });
+    await db.query("INSERT INTO newsletter_subscribers (email) VALUES ($1)", [
+      email,
+    ]);
+    res.json({ message: "Successfully subscribed to newsletter" });
   } catch (error) {
-    console.error('Error subscribing to newsletter:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error subscribing to newsletter:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 

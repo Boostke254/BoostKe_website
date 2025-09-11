@@ -11,6 +11,7 @@ import MessageBadge from "./MessageBadge";
 import ContactMail from "@mui/icons-material/ContactMail";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import DesignServicesIcon from "@mui/icons-material/DesignServices";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import CartIcon from "./CartIcon";
 
 const NavProfile = () => {
@@ -82,20 +83,12 @@ const NavProfile = () => {
     <div className="flex items-center relative">
       {/* Enhanced Cart Icon with badge */}
       <div className="hidden md:block me-3">
-        <CartIcon 
-          showCount={true}
-          color="inherit"
-          size="medium"
-        />
+        <CartIcon showCount={true} color="inherit" size="medium" />
       </div>
       <div className="block md:hidden me-3">
-        <CartIcon 
-          showCount={true}
-          color="inherit"
-          size="small"
-        />
+        <CartIcon showCount={true} color="inherit" size="small" />
       </div>
-      
+
       <MessageBadge />
 
       <div className="relative" ref={popupRef}>
@@ -214,8 +207,65 @@ const NavProfile = () => {
       </div>
     </div>
   ) : (
-    <div className="border-1 md:border-2 border-amber-500 rounded-sm md:rounded-md flex items-center justify-center py-1 md:py-2 px-3 md:px-4 text-[10px] md:text-base text-amber-500 font-medium hover:bg-amber-500 hover:text-white transition">
-      <NavLink to="/login">Login</NavLink>
+    <div className="flex flex-col sm:flex-row gap-4">
+      {/* Login Button */}
+      <NavLink
+        className="bg-[#FFA500] 
+          hover:bg-[#e69500] 
+          text-white 
+          font-semibold 
+          px-6 py-3 
+          rounded-2xl 
+          shadow-md 
+          transition 
+          duration-300 
+          ease-in-out 
+          transform 
+          hover:scale-105 
+          focus:outline-none 
+          focus:ring-2 
+          focus:ring-[#FFA500] 
+          focus:ring-offset-2
+          w-full sm:w-auto text-center"
+        to="/login"
+      >
+        Login
+      </NavLink>
+
+      {/* Signup Button */}
+      <NavLink
+        className="bg-white 
+          border border-[#FFA500] 
+          text-[#FFA500] 
+          font-light 
+          px-6 py-3 
+          rounded-2xl 
+          shadow-md 
+          transition 
+          duration-300 
+          ease-in-out 
+          transform 
+          hover:bg-[#FFF2E0] 
+          hover:text-[#e69500] 
+          hover:scale-105 
+          focus:outline-none 
+          focus:ring-2 
+          focus:ring-[#FFA500] 
+          focus:ring-offset-2
+          w-full sm:w-auto text-center"
+        to="/register"
+      >
+        Signup
+      </NavLink>
+
+      {/* Cart Button */}
+      <NavLink
+        className="bg-[#FFF8E1] border border-[#FFB84D] text-[#FF8C00] font-light px-6 py-3 rounded-2xl shadow-lg transition duration-300 ease-in-out transform hover:bg-[#FFE0B2] hover:text-[#e67e22] hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#FFB84D] focus:ring-offset-2 w-full sm:w-auto flex items-center justify-center gap-2"
+        to="/cart"
+      >
+        <ShoppingCartOutlinedIcon fontSize="small" />
+        Cart
+      </NavLink>
     </div>
   );
 };
