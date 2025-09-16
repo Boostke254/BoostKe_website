@@ -77,17 +77,15 @@ function Register() {
         // After successful registration, redirect to verification page
         navigate("/verification"); // Change to your verification page route
       } catch (error) {
-        console.log(error);
-        // Error handling
+        console.log("Status code:", error.response.data.error);
         if (!error?.response) {
           setErrMsg("No Server Response");
         } else if (error.response?.status === 400) {
-          setErrMsg("Invalid Data");
+          setErrMsg(error.response.data.error);
         } else if (error.response?.status === 401) {
-          setErrMsg("Unauthorized");
+          setErrMsg(error.response.data.error);
         } else if (error.response?.status === 500) {
           setErrMsg("Server Error");
-          console.log(error.response.data);
         } else {
           setErrMsg("Registration Failed");
         }
@@ -116,13 +114,16 @@ function Register() {
     const newPassword = e.target.value;
     setPassword(newPassword);
 
-    if (
-      !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(newPassword) &&
-      newPassword.length > 0
-    ) {
-      setPasswordError(
-        "Password must be at least 8 characters long and contain at least one letter and one number."
-      );
+    if (newPassword.length === 0) {
+      setPasswordError(null);
+    } else if (newPassword.length < 8) {
+      setPasswordError("Password must be at least 8 characters long.");
+    } else if (!/[A-Za-z]/.test(newPassword)) {
+      setPasswordError("Password must contain at least one letter.");
+    } else if (!/\d/.test(newPassword)) {
+      setPasswordError("Password must contain at least one number.");
+    } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(newPassword)) {
+      setPasswordError("Password must contain at least one special character.");
     } else {
       setPasswordError(null);
     }

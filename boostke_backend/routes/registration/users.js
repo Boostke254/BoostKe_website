@@ -174,9 +174,21 @@ router.post("/register", async (req, res) => {
 
   try {
     // Input validation
-    if (!full_Name || !email || !password) {
-      return res.status(400).json({ 
-        error: "Full name, email, and password are required" 
+    if (!full_Name) {
+      return res.status(400).json({
+        error: "Full name is required",
+      });
+    }
+
+    if (!email) {
+      return res.status(400).json({
+        error: "Email is required",
+      });
+    }
+
+    if (!password) {
+      return res.status(400).json({
+        error: "Password is required",
       });
     }
 
@@ -188,8 +200,8 @@ router.post("/register", async (req, res) => {
 
     // Password strength validation
     if (password.length < 6) {
-      return res.status(400).json({ 
-        error: "Password must be at least 6 characters long" 
+      return res.status(400).json({
+        error: "Password must be at least 6 characters long",
       });
     }
 
@@ -201,6 +213,18 @@ router.post("/register", async (req, res) => {
 
     if (emailCheck.rows.length > 0) {
       return res.status(400).json({ error: "Email already registered" });
+    }
+    // Chech if phone number already exists
+    if (mobile) {
+      const mobileCheck = await pool.query(
+        "SELECT * FROM users WHERE mobile = $1",
+        [mobile]
+      );
+      if (mobileCheck.rows.length > 0) {
+        return res
+          .status(400)
+          .json({ error: "Mobile number already registered" });
+      }
     }
 
     // 🔒 Hash the password
@@ -343,16 +367,22 @@ router.post("/register", async (req, res) => {
     }
 
     res.status(201).json({
-      message: "User registered successfully. Please check your email for verification code.",
+      message:
+        "User registered successfully. Please check your email for verification code.",
       note: "If you don't receive the email, you can request a new verification code later.",
       // Remove verification code from response in production
-      ...(process.env.NODE_ENV === 'development' && { verificationCode: verificationCode })
+      ...(process.env.NODE_ENV === "development" && {
+        verificationCode: verificationCode,
+      }),
     });
   } catch (err) {
     console.error("Error registering user:", err.message);
     res.status(500).json({
       error: "User registration failed",
-      details: process.env.NODE_ENV === 'development' ? err.message : 'Internal server error',
+      details:
+        process.env.NODE_ENV === "development"
+          ? err.message
+          : "Internal server error",
     });
   }
 });
@@ -406,7 +436,10 @@ router.post("/verify", async (req, res) => {
     console.error("Error verifying user:", err.message);
     res.status(500).json({
       error: "Failed to verify account",
-      details: process.env.NODE_ENV === 'development' ? err.message : 'Internal server error',
+      details:
+        process.env.NODE_ENV === "development"
+          ? err.message
+          : "Internal server error",
     });
   }
 });
@@ -571,7 +604,10 @@ router.post("/resend-verification-code", async (req, res) => {
       console.error("Failed to resend verification email:", emailError.message);
       return res.status(500).json({
         error: "Failed to send verification email",
-        details: process.env.NODE_ENV === 'development' ? emailError.message : 'Internal server error',
+        details:
+          process.env.NODE_ENV === "development"
+            ? emailError.message
+            : "Internal server error",
       });
     }
 
@@ -582,7 +618,10 @@ router.post("/resend-verification-code", async (req, res) => {
     console.error("Error resending verification code:", err.message);
     res.status(500).json({
       error: "Failed to resend verification code",
-      details: process.env.NODE_ENV === 'development' ? err.message : 'Internal server error',
+      details:
+        process.env.NODE_ENV === "development"
+          ? err.message
+          : "Internal server error",
     });
   }
 });
