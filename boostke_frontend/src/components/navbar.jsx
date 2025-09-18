@@ -31,17 +31,12 @@ function Navbar() {
       <ul className="flex items-center justify-around bg-[#ffa500] text-white md:p-2 pb-2">
         <li>
           <NavLink className={linkClasses} to="/">
-            Home
+            Ecosystem
           </NavLink>
         </li>
         <li>
-          <NavLink className={linkClasses} to="/categories">
-            Products
-          </NavLink>
-        </li>
-        <li>
-          <NavLink className={linkClasses} to="/services">
-            Services
+          <NavLink className={linkClasses} to="/marketplace">
+            Marketplace
           </NavLink>
         </li>
         <li>
@@ -72,6 +67,11 @@ function Navbar() {
         <li>
           <NavLink className={linkClasses} to="/blog">
             Blog
+          </NavLink>
+        </li>
+        <li>
+          <NavLink className={linkClasses} to="/ambassadors">
+            Ambassadors
           </NavLink>
         </li>
       </ul>

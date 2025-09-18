@@ -38,13 +38,13 @@ const StickyMiniNavbar = () => {
       </div>
       <div className="flex w-full md:w-fit justify-around md:justify-center md:gap-2 py-2">
         <NavLink className={linkClasses} to="/">
-          Home
+          Ecosystem
         </NavLink>
-        <NavLink className={linkClasses} to="/categories">
-          Products
+        <NavLink className={linkClasses} to="/marketplace">
+          Marketplace
         </NavLink>
-        <NavLink className={linkClasses} to="/services">
-          Services
+        <NavLink className={linkClasses} to="/vendors">
+          Vendors
         </NavLink>
         <NavLink className={linkClasses} to="/vendors">
           Vendors
@@ -57,6 +57,9 @@ const StickyMiniNavbar = () => {
         </NavLink>
         <NavLink className={linkClasses} to="/franchise">
           Franchise
+        </NavLink>
+        <NavLink className={linkClasses} to="/ambassadors">
+          Ambassadors
         </NavLink>
         <NavLink className={linkClasses} to="/profile">
           My Account

@@ -128,7 +128,7 @@ const Franchise = () => {
           </p>
           
           <button className="bg-[#FFA500] hover:bg-[#FF8C00] text-white font-bold py-4 px-8 md:px-12 rounded-full text-lg md:text-xl transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-3xl">
-            Apply Now
+              <a href="#application-form">Apply Now</a>
           </button>
           
           <div className="mt-12 flex flex-wrap justify-center gap-6 md:gap-8">
@@ -435,7 +435,7 @@ const Franchise = () => {
           <div className="lg:col-span-1">
             <div className="sticky top-8">
               <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg border border-[#E6E5E5]">
-                <h3 className="text-2xl font-bold text-[#1B1C1E] mb-6 font-['Mada',sans-serif]">
+                <h3 id="franchise-journey-section" className="text-2xl font-bold text-[#1B1C1E] mb-6 font-['Mada',sans-serif]">
                   Start Your Journey
                 </h3>
                 <form onSubmit={handleSubmit} className="space-y-6">

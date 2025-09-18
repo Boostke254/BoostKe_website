@@ -46,6 +46,9 @@ import Innovators from "./pages/Innovators";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import BlogAdmin from "./pages/BlogAdmin";
+import EcosystemHome from "./pages/EcosystemHome";
+import Ambassadors from "./components/ambassadors/ambassadors";
+import TrainingIndex from "./components/ambassadors/training/index.jsx";
 
 const router = createBrowserRouter([
   {
@@ -60,6 +63,10 @@ const router = createBrowserRouter([
       {
         // path: "/shopping/home",
         path: "/",
+        element: <EcosystemHome />,
+      },
+      {
+        path: "/marketplace",
         element: <Home />,
       },
       {
@@ -97,6 +104,14 @@ const router = createBrowserRouter([
       {
         path: "/blog",
         element: <Blog />,
+      },
+      {
+        path: "/ambassadors",
+        element: <Ambassadors />,
+      },
+      {
+        path: "/ambassadors/training",
+        element: <TrainingIndex />,
       },
       {
         path: "/blog/:postId",
