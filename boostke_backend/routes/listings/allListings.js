@@ -5,27 +5,28 @@ const router = express.Router();
 
 //popular
 router.get("/all", async (req, res) => {
-  const { page = 1, limit = 10 } = req.query; // Default to page 1, 10 listings per page
+  const { page = 1, limit = 10 } = req.query; // Defaults
   const offset = (page - 1) * limit;
 
   try {
-    // Fetch listings with pagination, joining with retailer and shop tables
     const result = await pool.query(
       `
       SELECT
-        l.*,
-        r.full_name AS retailer_name,
-        s.shop_name
+        listing_id,
+        title,
+        description,
+        price,
+        category,
+        location,
+        photos,
+        view_count,
+        created_at
       FROM
-        listings l
-      JOIN
-        retailers  r ON l.retailer_id = r.retailer_id
-      LEFT JOIN
-        shops s ON l.retailer_id = s.retailer_id -- Use LEFT JOIN in case a retailer doesn't have a shop entry
+        listings
       WHERE
-        l.is_available = TRUE
+        is_available = TRUE
       ORDER BY
-        l.view_count DESC
+        view_count DESC
       LIMIT $1 OFFSET $2;
       `,
       [limit, offset]
@@ -37,9 +38,19 @@ router.get("/all", async (req, res) => {
         .json({ message: "No listings available", listings: [] });
     }
 
+    // Fix photos array to use /api/uploads/
+    const listings = result.rows.map((listing) => {
+      const photos = (listing.photos || []).map((url) =>
+        url.replace("/uploads/", "/api/uploads/")
+      );
+      return { ...listing, photos };
+    });
+
     res.status(200).json({
       message: "All available listings fetched successfully",
-      listings: result.rows,
+      page: Number(page),
+      limit: Number(limit),
+      listings,
     });
   } catch (err) {
     console.error("Error fetching listings:", err.message);
