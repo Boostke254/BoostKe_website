@@ -44,7 +44,7 @@ app.options("*", cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use("/uploads", express.static(path.join(__dirname, "./uploads")));
+app.use("/api/uploads", express.static(path.join(__dirname, "./uploads")));
 
 // Image proxy for handling missing images
 const imageProxyRouter = require("./routes/images/imageProxy");
