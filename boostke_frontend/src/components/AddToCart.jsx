@@ -19,7 +19,7 @@ import {
   Remove,
   ShoppingCart
 } from '@mui/icons-material';
-import CartService from '../utils/cartService';
+import CartService from '../services/cartService';
 
 const AddToCart = ({ 
   listing, 

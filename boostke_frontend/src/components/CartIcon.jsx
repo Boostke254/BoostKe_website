@@ -8,7 +8,7 @@ import {
   ShoppingCartOutlined 
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import CartService from '../utils/cartService';
+import CartService from '../services/cartService';
 
 const CartIcon = ({ 
   showCount = true,

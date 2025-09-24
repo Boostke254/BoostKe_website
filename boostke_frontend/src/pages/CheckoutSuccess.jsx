@@ -21,7 +21,7 @@ import {
   ShoppingCartOutlined
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
-import CartService from '../utils/cartService';
+import CartService from '../services/cartService';
 
 const CheckoutSuccess = () => {
   const navigate = useNavigate();

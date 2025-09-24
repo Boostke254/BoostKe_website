@@ -13,14 +13,12 @@ const PORT = process.env.PORT || 5000;
 
 // Allowed origins
 const allowedOrigins = [
-  "http://localhost:5173", // Development
+  "http://localhost:5173", 
   "https://boostke.co.ke",
   "https://www.boostke.co.ke",
   "http://www.boostke.co.ke",
   "http://boostke.co.ke",
-  // Add your actual domain here when you get it
-  // "https://your-actual-domain.com",
-  // "https://www.your-actual-domain.com",
+
 ];
 
 // CORS configuration
