@@ -168,10 +168,22 @@ function Homelistings({ selectedCounty, selectedPriceRange, selectedSort }) {
       }
       // Replace production URLs with localhost for development
       return photo
-        .replace("http://api.boostke.co.ke/uploads/", "http://localhost:5000")
-        .replace("https://api.boostke.co.ke/uploads/", "http://localhost:5000")
-        .replace("http://boostke.co.ke/uploads/", "http://localhost:5000")
-        .replace("https://boostke.co.ke/uploads/", "http://localhost:5000");
+        .replace(
+          "http://api.boostke.co.ke/api/uploads/",
+          "http://localhost:5000/api/"
+        )
+        .replace(
+          "https://api.boostke.co.ke/api/uploads/",
+          "http://localhost:5000/api/"
+        )
+        .replace(
+          "http://boostke.co.ke/api/uploads/",
+          "http://localhost:5000/api/"
+        )
+        .replace(
+          "https://boostke.co.ke/api/uploads/",
+          "http://localhost:5000/api/"
+        );
     }
 
     // For relative paths, use current BASE_URL
