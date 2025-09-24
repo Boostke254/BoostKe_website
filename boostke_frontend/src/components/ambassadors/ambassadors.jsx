@@ -9,6 +9,13 @@ import Skeleton from "@mui/material/Skeleton";
 import LinearProgress from "@mui/material/LinearProgress";
 import Leaderboard from "./leaderboard";
 import TrainingModule from "./training/TrainingModule";
+import happyBoostKE from "../../assets/images/ambassadors/Happy-BoostKE 1.png";
+import roadmapImg from "../../assets/images/ambassadors/roadmap.png";
+import bronzeBadge from "../../assets/images/ambassadors/icons/Bronze Badge copy .png";
+import silverBadge from "../../assets/images/ambassadors/icons/SilverBadge.png";
+import goldBadge from "../../assets/images/ambassadors/icons/Gold Badge.png";
+import diamondBadge from "../../assets/images/ambassadors/icons/Diamond BADGE.png";
+import platinumBadge from "../../assets/images/ambassadors/icons/PLATINUM BADGE.png";
 
 function Ambassadors() {
   const { isAuthenticated, user } = useAuth();
@@ -21,7 +28,6 @@ function Ambassadors() {
   const [successMessage, setSuccessMessage] = useState(null);
   const [showTraining, setShowTraining] = useState(false);
 
-  // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
     if (isAuthenticated) {
@@ -33,20 +39,17 @@ function Ambassadors() {
     setLoading(true);
     setError(null);
     try {
-      // Fetch leaderboard
       const leaderboardData = await ambassadorAPI.getLeaderboard(5);
       setLeaderboard(leaderboardData.leaderboard || []);
-      
-      // Fetch user's ambassador stats if authenticated
+
       if (isAuthenticated) {
         try {
           const statsData = await ambassadorAPI.getStats();
           setAmbassadorStats(statsData);
         } catch (error) {
-          // User might not be an ambassador yet
           console.log("User is not an ambassador yet");
         }
-        
+
         try {
           const rewardsData = await ambassadorAPI.getRewards();
           setRewards(rewardsData.rewards || []);
@@ -68,15 +71,14 @@ function Ambassadors() {
       navigate("/login");
       return;
     }
-    
+
     try {
       setLoading(true);
       setError(null);
-      // This would claim the first available reward
       if (rewards.length > 0) {
         await ambassadorAPI.claimReward(rewards[0].id);
         setSuccessMessage("Reward claimed successfully!");
-        fetchAmbassadorData(); // Refresh data
+        fetchAmbassadorData();
       } else {
         setError("No rewards available to claim");
       }
@@ -89,12 +91,11 @@ function Ambassadors() {
   };
 
   const handleViewLeaderboard = () => {
-    // Scroll to leaderboard section
     const leaderboardSection = document.getElementById("ambassadors-leaderboard-section");
     if (leaderboardSection) {
       leaderboardSection.scrollIntoView({ behavior: "smooth" });
     }
-  }
+  };
 
   const handleInviteNewMember = () => {
     if (!isAuthenticated) {
@@ -117,8 +118,7 @@ function Ambassadors() {
   const handleStartTraining = () => {
     navigate("/ambassadors/training");
   };
-  
-  // If training is active, show only the training module
+
   if (showTraining) {
     return <TrainingModule onClose={() => setShowTraining(false)} />;
   }
@@ -146,7 +146,6 @@ function Ambassadors() {
         <meta property="og:type" content="website" />
       </Helmet>
 
-      {/* Alert Messages */}
       {error && (
         <div className="mx-4 md:mx-[77px] mb-4">
           <Alert severity="error" onClose={() => setError(null)}>
@@ -163,11 +162,10 @@ function Ambassadors() {
         </div>
       )}
 
-  {/* Hero Section with Background Image */}
       <div 
         className="hero-section relative min-h-[75vh] flex items-center px-4"
         style={{
-          backgroundImage: `linear-gradient(rgba(255, 165, 0, 0.4), rgba(255, 140, 0, 0.3)), url('/images/ambassadors/Happy-BoostKE 1.png')`,
+          backgroundImage: `linear-gradient(rgba(255, 165, 0, 0.4), rgba(255, 140, 0, 0.3)), url(${happyBoostKE})`,
           backgroundSize: 'contain',
           backgroundPosition: 'left center',
           backgroundRepeat: 'no-repeat',
@@ -178,12 +176,8 @@ function Ambassadors() {
         
         <div className="relative z-10 max-w-7xl mx-auto w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-            {/* Left side - Image space (handled by background) */}
-            <div className="hidden lg:block">
-              {/* This space is for the background image */}
-            </div>
+            <div className="hidden lg:block"></div>
             
-            {/* Right side - Content */}
             <div className="text-left lg:pl-8">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight text-white drop-shadow-lg">
                 From Vision to<br />
@@ -191,9 +185,7 @@ function Ambassadors() {
                 Legacy Awaits
               </h1>
 
-              {/* Badge Icons */}
               <div className="flex flex-col space-y-4 mb-8">
-                {/* Diamond Badge */}
                 <div className="flex items-center space-x-3">
                   <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center shadow-lg">
                     <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -203,7 +195,6 @@ function Ambassadors() {
                   <span className="text-white font-medium text-lg drop-shadow-md">Diamond Badge</span>
                 </div>
 
-                {/* 90% Success Rate */}
                 <div className="flex items-center space-x-3">
                   <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center shadow-lg">
                     <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center relative">
@@ -217,7 +208,6 @@ function Ambassadors() {
                 </div>
               </div>
 
-              {/* Action Buttons */}
               <div className="flex flex-wrap gap-4 mb-8">
                 <button 
                   onClick={handleClaimReward}
@@ -253,7 +243,6 @@ function Ambassadors() {
         </div>
       </div>
 
-      {/* The Road to Legacy Section */}
       <div className="py-12 md:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="text-center mb-12">
@@ -263,11 +252,10 @@ function Ambassadors() {
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Left side - Roadmap Image */}
             <div className="order-2 lg:order-1">
               <div className="relative">
                 <img 
-                  src="/images/ambassadors/roadmap.png" 
+                  src={roadmapImg} 
                   alt="The Road to Legacy - Ambassador Roadmap" 
                   className="w-full h-auto max-w-md mx-auto lg:max-w-full"
                   loading="lazy"
@@ -275,7 +263,6 @@ function Ambassadors() {
               </div>
             </div>
             
-            {/* Right side - Content */}
             <div className="order-1 lg:order-2 space-y-6">
               <div>
                 <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4 font-['Mada',sans-serif]">
@@ -287,19 +274,16 @@ function Ambassadors() {
                 </p>
               </div>
 
-              {/* Ambassador Badges Section */}
               <div>
                 <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-6 font-['Mada',sans-serif]">
                   Our Badges
                 </h3>
                 
-                {/* Horizontal Badge Layout */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-3">
-                  {/* Aspire Badge */}
                   <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                     <div className="w-14 h-14 rounded-full flex items-center justify-center">
                       <img 
-                        src="/images/ambassadors/icons/Bronze Badge copy .png" 
+                        src={bronzeBadge} 
                         alt="Aspire Badge"
                         className="w-14 h-14 object-contain"
                       />
@@ -310,11 +294,10 @@ function Ambassadors() {
                     </div>
                   </div>
 
-                  {/* Visionary Partner Badge */}
                   <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                     <div className="w-14 h-14 rounded-full flex items-center justify-center">
                       <img 
-                        src="/images/ambassadors/icons/SilverBadge.png" 
+                        src={silverBadge} 
                         alt="Visionary Partner Badge"
                         className="w-14 h-14 object-contain"
                       />
@@ -325,11 +308,10 @@ function Ambassadors() {
                     </div>
                   </div>
 
-                  {/* Titan Influencer Badge */}
                   <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                     <div className="w-14 h-14 rounded-full flex items-center justify-center">
                       <img 
-                        src="/images/ambassadors/icons/Gold Badge.png" 
+                        src={goldBadge} 
                         alt="Titan Influencer Badge"
                         className="w-14 h-14 object-contain"
                       />
@@ -340,11 +322,10 @@ function Ambassadors() {
                     </div>
                   </div>
 
-                  {/* Legacy Creator Badge */}
                   <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                     <div className="w-14 h-14 rounded-full flex items-center justify-center">
                       <img 
-                        src="/images/ambassadors/icons/Diamond BADGE.png" 
+                        src={diamondBadge} 
                         alt="Legacy Creator Badge"
                         className="w-14 h-14 object-contain"
                       />
@@ -356,12 +337,11 @@ function Ambassadors() {
                   </div>
                 </div>
 
-                {/* The Invincibles Badge - Special Full Width */}
                 <div className="mt-3">
                   <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-red-50 to-red-100 rounded-lg border border-red-200">
                     <div className="w-14 h-14 rounded-full flex items-center justify-center">
                       <img 
-                        src="/images/ambassadors/icons/PLATINUM BADGE.png" 
+                        src={platinumBadge} 
                         alt="The Invincibles Badge"
                         className="w-14 h-14 object-contain"
                       />
@@ -374,7 +354,6 @@ function Ambassadors() {
                 </div>
               </div>
 
-              {/* Call to Action */}
               <div className="pt-4">
                 <button
                   onClick={handleApplyNow}
@@ -388,7 +367,6 @@ function Ambassadors() {
         </div>
       </div>
 
-      {/* Milestones and Rewards Section */}
       <div className="py-12 md:py-16 bg-gradient-to-br from-amber-50 to-orange-100">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="text-center mb-12">
@@ -398,7 +376,6 @@ function Ambassadors() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-12">
-            {/* 5 Bronze Badge Holders */}
             <div className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow duration-300">
               <div className="text-4xl font-bold text-amber-700 mb-2">5</div>
               <div className="text-sm font-semibold text-gray-900 mb-4">Bronze Badge Holders</div>
@@ -407,7 +384,6 @@ function Ambassadors() {
               </div>
             </div>
 
-            {/* 20 Silver Badge Holders */}
             <div className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow duration-300">
               <div className="text-4xl font-bold text-gray-600 mb-2">20</div>
               <div className="text-sm font-semibold text-gray-900 mb-4">Silver Badge Holders</div>
@@ -418,7 +394,6 @@ function Ambassadors() {
               </div>
             </div>
 
-            {/* 35 Gold Badge Holders */}
             <div className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow duration-300">
               <div className="text-4xl font-bold text-yellow-600 mb-2">35</div>
               <div className="text-sm font-semibold text-gray-900 mb-4">Gold Badge Holders</div>
@@ -428,7 +403,6 @@ function Ambassadors() {
               </div>
             </div>
 
-            {/* 50 Diamond Badge Holders */}
             <div className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow duration-300">
               <div className="text-4xl font-bold text-blue-600 mb-2">50</div>
               <div className="text-sm font-semibold text-gray-900 mb-4">Diamond Badge Holders</div>
@@ -439,7 +413,6 @@ function Ambassadors() {
               </div>
             </div>
 
-            {/* 100 Platinum Badge Holders */}
             <div className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow duration-300 border-2 border-amber-300">
               <div className="text-4xl font-bold text-purple-600 mb-2">100</div>
               <div className="text-sm font-semibold text-gray-900 mb-4">Platinum Badge Holders</div>
@@ -451,7 +424,6 @@ function Ambassadors() {
             </div>
           </div>
 
-          {/* Call to Action */}
           <div className="text-center">
             <button
               onClick={handleApplyNow}
@@ -463,7 +435,6 @@ function Ambassadors() {
         </div>
       </div>
 
-      {/* Weekly Top Leaderboard Section */}
       <div id="ambassadors-leaderboard-section">
         <Leaderboard />
       </div>

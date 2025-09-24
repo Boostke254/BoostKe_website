@@ -3,6 +3,9 @@ import '../css/style.css';
 import { Helmet } from "react-helmet";
 import { Divider } from "@mui/material";
 
+// ✅ Import hero image using ES6
+import kncciHero from "../assets/images/kncci-hero.jpg";
+
 function KNCCI() {
   return (
     <div className="kncci-page">
@@ -24,6 +27,8 @@ function KNCCI() {
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://boostke.co.ke/kncci" />
         <meta property="og:site_name" content="BoostKE" />
+        {/* ✅ Social share image */}
+        <meta property="og:image" content={kncciHero} />
       </Helmet>
 
       {/* Header Section */}
@@ -38,9 +43,9 @@ function KNCCI() {
       {/* Hero Image Section */}
       <div className="relative w-full">
         <img 
-          src="/src/images/KNCCI-HERO-IMAGE.jpg" 
+          src={kncciHero} 
           alt="Empowering Kenya's Business Community"
-          className="w-full h-auto object-cover"
+          className="w-full max-h-[500px] object-cover"
         />
         <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-6">
           <h2 className="text-xl md:text-3xl font-semibold mb-2 text-center">
@@ -367,28 +372,16 @@ function KNCCI() {
       {/* Final CTA */}
       <div className="text-center py-8 bg-gray-800 text-white">
         <h3 className="text-lg md:text-xl font-semibold mb-4">
-          Join the Movement
+          Join the KNCCI Business Community Today
         </h3>
-        <p className="text-sm mb-6 max-w-2xl mx-auto opacity-90">
-          Be part of Kenya's business transformation. Together with KNCCI, 
-          we're building a stronger, more competitive business environment for all.
-        </p>
-        <div className="flex flex-col md:flex-row gap-4 justify-center">
-          <a
-            href="https://kncci.glueup.com/organization/6246/memberships/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded font-semibold transition-colors inline-block"
-          >
-            🚀 Start Your KNCCI Journey
-          </a>
-          <a
-            href="/contact"
-            className="border-2 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white px-8 py-3 rounded font-semibold transition-colors inline-block"
-          >
-            💬 Contact Boost Kenya Team
-          </a>
-        </div>
+        <a
+          href="https://kncci.glueup.com/organization/6246/memberships/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded font-semibold transition-colors inline-block"
+        >
+          Become a Member Now →
+        </a>
       </div>
     </div>
   );

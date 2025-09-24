@@ -207,26 +207,10 @@ const NavProfile = () => {
       </div>
     </div>
   ) : (
-    <div className="flex flex-col sm:flex-row gap-4">
+    <div className="flex flex-row gap-2 top-action-buttons nav-profile-actions">
       {/* Login Button */}
       <NavLink
-        className="bg-[#FFA500] 
-          hover:bg-[#e69500] 
-          text-white 
-          font-semibold 
-          px-6 py-3 
-          rounded-2xl 
-          shadow-md 
-          transition 
-          duration-300 
-          ease-in-out 
-          transform 
-          hover:scale-105 
-          focus:outline-none 
-          focus:ring-2 
-          focus:ring-[#FFA500] 
-          focus:ring-offset-2
-          w-full sm:w-auto text-center"
+        className="bg-[#FFA500] hover:bg-[#e69500] text-white font-semibold px-4 py-2 rounded-xl shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#FFA500] focus:ring-offset-2 text-center text-sm"
         to="/login"
       >
         Login
@@ -234,25 +218,7 @@ const NavProfile = () => {
 
       {/* Signup Button */}
       <NavLink
-        className="bg-white 
-          border border-[#FFA500] 
-          text-[#FFA500] 
-          font-light 
-          px-6 py-3 
-          rounded-2xl 
-          shadow-md 
-          transition 
-          duration-300 
-          ease-in-out 
-          transform 
-          hover:bg-[#FFF2E0] 
-          hover:text-[#e69500] 
-          hover:scale-105 
-          focus:outline-none 
-          focus:ring-2 
-          focus:ring-[#FFA500] 
-          focus:ring-offset-2
-          w-full sm:w-auto text-center"
+        className="bg-white border border-[#FFA500] text-[#FFA500] font-light px-4 py-2 rounded-xl shadow-md transition duration-300 ease-in-out transform hover:bg-[#FFF2E0] hover:text-[#e69500] hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#FFA500] focus:ring-offset-2 text-center text-sm"
         to="/register"
       >
         Signup
@@ -260,7 +226,7 @@ const NavProfile = () => {
 
       {/* Cart Button */}
       <NavLink
-        className="bg-[#FFF8E1] border border-[#FFB84D] text-[#FF8C00] font-light px-6 py-3 rounded-2xl shadow-lg transition duration-300 ease-in-out transform hover:bg-[#FFE0B2] hover:text-[#e67e22] hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#FFB84D] focus:ring-offset-2 w-full sm:w-auto flex items-center justify-center gap-2"
+        className="bg-[#FFF8E1] border border-[#FFB84D] text-[#FF8C00] font-light px-4 py-2 rounded-xl shadow-lg transition duration-300 ease-in-out transform hover:bg-[#FFE0B2] hover:text-[#e67e22] hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#FFB84D] focus:ring-offset-2 flex items-center justify-center gap-1 text-sm"
         to="/cart"
       >
         <ShoppingCartOutlinedIcon fontSize="small" />

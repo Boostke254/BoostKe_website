@@ -51,9 +51,9 @@ function Login() {
       if (!error?.response) {
         setErrMsg("Server Timeout");
       } else if (error?.response.status === 400) {
-        setErrMsg(error.response.data.error); // Updated error handling
+        setErrMsg(error.response.data.error);
       } else if (error?.response.status === 403) {
-        setErrMsg("Please verify your email first."); // Updated for verification error
+        setErrMsg("Please verify your email first.");
       } else if (error?.response.status === 401) {
         setErrMsg("Invalid login details!");
       } else if (error?.response.status === 500) {

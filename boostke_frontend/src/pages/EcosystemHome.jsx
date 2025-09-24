@@ -3,6 +3,19 @@ import "../css/style.css";
 import { Helmet } from "react-helmet";
 import { NavLink } from "react-router-dom";
 
+// ES6 Imports for Images
+import ecosystemHomeBg from "../assets/images/ecosystemhome.jpg";
+import marketplaceBg from "../assets/images/more-than-marketplace-bg.png";
+import marketplaceIcon from "../assets/images/icons/marketplace-icon.png";
+import innovationHubIcon from "../assets/images/icons/innovation-hub-icon.png";
+import franchiseIcon from "../assets/images/icons/franchise-icon.png";
+import ambassadorsIcon from "../assets/images/icons/ambassadors-icon.png";
+import aiNovaIcon from "../assets/images/icons/ai-nova-icon.png";
+import communityWealthIcon from "../assets/images/icons/community-wealth-icon.png";
+import ladderImage from "../assets/images/icons/Ladder.png";
+import vendorShopIcon from "../assets/images/icons/vendor-shop.png";
+import innovationBulbIcon from "../assets/images/icons/innovation-bulb.png";
+
 function EcosystemHome() {
   return (
     <div className="ecosystem-homepage">
@@ -31,7 +44,7 @@ function EcosystemHome() {
       <div 
         className="hero-section relative min-h-[80vh] flex flex-col justify-center items-center text-center px-4"
         style={{
-          backgroundImage: `linear-gradient(rgba(255, 165, 0, 0.7), rgba(255, 140, 0, 0.8)), url('/images/ecosystemhome.jpg')`,
+          backgroundImage: `linear-gradient(rgba(255, 165, 0, 0.7), rgba(255, 140, 0, 0.8)), url(${ecosystemHomeBg})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat'
@@ -97,7 +110,7 @@ function EcosystemHome() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mt-12">
-            {/* Sell & Trade */}
+            {/* List service or Product */}
             <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-center border border-gray-200">
               <div className="bg-[#ffebc8] w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <div className="text-[#ffa500] text-2xl">📝</div>
@@ -111,7 +124,7 @@ function EcosystemHome() {
               </NavLink>
             </div>
 
-            {/* Earn & Network */}
+            {/* Grow with us */}
             <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-center border border-gray-200">
               <div className="bg-[#ffebc8] w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <div className="text-[#ffa500] text-2xl">💼</div>
@@ -125,7 +138,7 @@ function EcosystemHome() {
               </NavLink>
             </div>
 
-            {/* Co-Create */}
+            {/* Join our Innovation */}
             <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-center border border-gray-200">
               <div className="bg-[#ffebc8] w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <div className="text-[#ffa500] text-2xl">👥</div>
@@ -139,7 +152,7 @@ function EcosystemHome() {
               </NavLink>
             </div>
 
-            {/* Scale with AI */}
+            {/* Use Nova, our AI */}
             <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-center border border-gray-200">
               <div className="bg-[#ffebc8] w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <div className="text-[#ffa500] text-2xl">🤖</div>
@@ -153,7 +166,7 @@ function EcosystemHome() {
               </NavLink>
             </div>
 
-            {/* Community Wealth */}
+            {/* Be part of projects */}
             <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-center border border-gray-200">
               <div className="bg-[#ffebc8] w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <div className="text-[#ffa500] text-2xl">🌟</div>
@@ -184,7 +197,7 @@ function EcosystemHome() {
             <div className="text-center p-6">
               <div className="mb-6 flex justify-center">
                 <img 
-                  src="/images/icons/marketplace-icon.png" 
+                  src={marketplaceIcon} 
                   alt="Marketplace & Services" 
                   className="w-24 h-24 object-contain"
                 />
@@ -198,7 +211,7 @@ function EcosystemHome() {
             <div className="text-center p-6">
               <div className="mb-6 flex justify-center">
                 <img 
-                  src="/images/icons/innovation-hub-icon.png" 
+                  src={innovationHubIcon} 
                   alt="Innovation & Co-Creation Hub" 
                   className="w-24 h-24 object-contain"
                 />
@@ -212,7 +225,7 @@ function EcosystemHome() {
             <div className="text-center p-6">
               <div className="mb-6 flex justify-center">
                 <img 
-                  src="/images/icons/franchise-icon.png" 
+                  src={franchiseIcon} 
                   alt="Franchise" 
                   className="w-24 h-24 object-contain"
                 />
@@ -226,7 +239,7 @@ function EcosystemHome() {
             <div className="text-center p-6">
               <div className="mb-6 flex justify-center">
                 <img 
-                  src="/images/icons/ambassadors-icon.png" 
+                  src={ambassadorsIcon} 
                   alt="Ambassadors Program" 
                   className="w-24 h-24 object-contain"
                 />
@@ -240,7 +253,7 @@ function EcosystemHome() {
             <div className="text-center p-6">
               <div className="mb-6 flex justify-center">
                 <img 
-                  src="/images/icons/ai-nova-icon.png" 
+                  src={aiNovaIcon} 
                   alt="AI Nova" 
                   className="w-24 h-24 object-contain"
                 />
@@ -254,7 +267,7 @@ function EcosystemHome() {
             <div className="text-center p-6">
               <div className="mb-6 flex justify-center">
                 <img 
-                  src="/images/icons/community-wealth-icon.png" 
+                  src={communityWealthIcon} 
                   alt="Community Wealth Model" 
                   className="w-24 h-24 object-contain"
                 />
@@ -268,11 +281,17 @@ function EcosystemHome() {
       </div>
 
       {/* More Than a Marketplace Section */}
-      <div className="marketplace-bg py-20 md:py-32 relative overflow-hidden min-h-[700px] md:min-h-[800px] flex items-center">
-        
+      <div 
+        className="marketplace-bg py-12 md:py-16 relative overflow-hidden min-h-[400px] md:min-h-[480px] flex items-center"
+        style={{
+          backgroundImage: `linear-gradient(rgba(255, 165, 0, 0.4), rgba(255, 140, 0, 0.5)), url(${marketplaceBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
         <div className="max-w-7xl mx-auto px-4 relative z-10 w-full">
           <div className="max-w-3xl">
-            {/* Left Content Only */}
             <div className="text-left">
               <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight drop-shadow-2xl">
                 More Than a<br />Marketplace
@@ -328,7 +347,7 @@ function EcosystemHome() {
                 </NavLink>
               </div>
 
-              {/* Stats or Additional Info */}
+              {/* Stats */}
               <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-2xl">
                 <div className="text-center md:text-left">
                   <div className="text-3xl md:text-4xl font-bold text-[#ffa500] drop-shadow-lg">1000+</div>
@@ -362,7 +381,7 @@ function EcosystemHome() {
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
               <div className="mb-6 flex justify-center">
                 <img 
-                  src="/images/icons/ambassador-icon.png" 
+                  src={ambassadorsIcon} 
                   alt="Ambassador Badge" 
                   className="w-16 h-16 object-contain"
                 />
@@ -379,7 +398,7 @@ function EcosystemHome() {
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
               <div className="mb-6 flex justify-center">
                 <img 
-                  src="/images/icons/franchise-icon.png" 
+                  src={franchiseIcon} 
                   alt="Franchise Stores" 
                   className="w-16 h-16 object-contain"
                 />
@@ -396,7 +415,7 @@ function EcosystemHome() {
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
               <div className="mb-6 flex justify-center">
                 <img 
-                  src="/images/icons/vendor-shop.png" 
+                  src={vendorShopIcon} 
                   alt="Vendor Shop" 
                   className="w-16 h-16 object-contain"
                 />
@@ -413,7 +432,7 @@ function EcosystemHome() {
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
               <div className="mb-6 flex justify-center">
                 <img 
-                  src="/images/icons/innovation-bulb.png" 
+                  src={innovationBulbIcon} 
                   alt="Innovation Bulb" 
                   className="w-16 h-16 object-contain"
                 />
@@ -436,7 +455,7 @@ function EcosystemHome() {
             {/* Left Side - Ladder Image */}
             <div className="flex justify-center lg:justify-start">
               <img 
-                src="/images/icons/Ladder 1.png" 
+                src={ladderImage} 
                 alt="Growth Ladder" 
                 className="max-w-full h-auto"
                 style={{ maxHeight: '500px', maxWidth: '400px' }}

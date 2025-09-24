@@ -31,7 +31,7 @@ function Navbar() {
       <ul className="flex items-center justify-around bg-[#ffa500] text-white md:p-2 pb-2">
         <li>
           <NavLink className={linkClasses} to="/">
-            Ecosystem
+            HomePage
           </NavLink>
         </li>
         <li>

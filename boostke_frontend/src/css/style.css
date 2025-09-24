@@ -1,3 +1,60 @@
+/* Fixed bottom action bar for mobile */
+@media (max-width: 768px) {
+  .top-action-buttons {
+    display: none !important;
+  }
+  .mobile-action-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    background: #fff;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px 0 6px 0;
+    z-index: 1000;
+  }
+  .mobile-action-bar button, .mobile-action-bar a {
+    flex: 1 1 0;
+    margin: 0 6px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: none;
+    background: #ffa500;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    text-decoration: none;
+  }
+  .mobile-action-bar .cart-btn {
+    background: #fff8e1;
+    color: #ffa500;
+    border: 1.5px solid #ffa500;
+  }
+}
+/* Mobile horizontal scroll for navbar */
+@media (max-width: 768px) {
+  .navbar, .nav, .navigation, nav ul, .main-navbar, .main-nav {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+  }
+  .navbar::-webkit-scrollbar, .nav::-webkit-scrollbar, .navigation::-webkit-scrollbar, nav ul::-webkit-scrollbar, .main-navbar::-webkit-scrollbar, .main-nav::-webkit-scrollbar {
+    display: none;
+  }
+  .navbar > *, .nav > *, .navigation > *, nav ul > *, .main-navbar > *, .main-nav > * {
+    flex: 0 0 auto;
+  }
+}
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Mada:wght@200;300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@200;300;400;500;600;700;800&family=Protest+Riot&display=swap");
 /* font-family: 'Inter', sans-serif;
 font-family: 'Mada', sans-serif;
@@ -196,6 +253,53 @@ font-family: 'Protest Riot', sans-serif; */
 .product_view {
   display: flex;
   gap: 20px;
+}
+
+/* Responsive Design Enhancements */
+@media (max-width: 1024px) {
+  .views,
+  .seller_profile {
+    padding: 0 24px 30px 24px;
+  }
+  .listings {
+    padding: 10px 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .listings {
+    gap: 10px;
+  }
+  .listings a {
+    width: 48%;
+    height: 200px;
+  }
+  .product_view {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .views,
+  .seller_profile {
+    padding: 0 8px 20px 8px;
+  }
+  .listings {
+    padding: 10px 4px;
+    gap: 6px;
+  }
+  .listings a {
+    width: 100%;
+    height: 160px;
+    margin-bottom: 8px;
+  }
+  .modal-container {
+    width: 98vw;
+    padding: 8px;
+    top: 0;
+    transform: none;
+  }
 }
 
 .product_view .images {
