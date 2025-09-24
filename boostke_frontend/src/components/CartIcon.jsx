@@ -1,20 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  IconButton, 
-  Badge, 
-  Tooltip 
-} from '@mui/material';
-import { 
-  ShoppingCartOutlined 
-} from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
-import CartService from '../utils/cartService';
+import React, { useState, useEffect } from "react";
+import { IconButton, Badge, Tooltip } from "@mui/material";
+import { ShoppingCartOutlined } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
+import CartService from "../services/cartService";
 
-const CartIcon = ({ 
-  showCount = true,
-  color = 'inherit',
-  size = 'medium'
-}) => {
+const CartIcon = ({ showCount = true, color = "inherit", size = "medium" }) => {
   const navigate = useNavigate();
   const cartService = new CartService();
   const [cartCount, setCartCount] = useState(0);
@@ -24,10 +14,10 @@ const CartIcon = ({
     // Only fetch cart count if user is authenticated
     if (cartService.isAuthenticated()) {
       fetchCartCount();
-      
+
       // Set up interval to refresh cart count every 30 seconds
       const interval = setInterval(fetchCartCount, 30000);
-      
+
       return () => clearInterval(interval);
     }
   }, []);
@@ -36,12 +26,12 @@ const CartIcon = ({
     try {
       setLoading(true);
       const response = await cartService.getCartSummary();
-      
+
       if (response.success) {
         setCartCount(response.data.total_items || 0);
       }
     } catch (error) {
-      console.error('Error fetching cart count:', error);
+      console.error("Error fetching cart count:", error);
       setCartCount(0);
     } finally {
       setLoading(false);
@@ -50,11 +40,11 @@ const CartIcon = ({
 
   const handleCartClick = () => {
     if (!cartService.isAuthenticated()) {
-      navigate('/login');
+      navigate("/login");
       return;
     }
-    
-    navigate('/cart');
+
+    navigate("/cart");
   };
 
   // Add method to manually refresh cart count (can be called from other components)
@@ -66,17 +56,13 @@ const CartIcon = ({
 
   // Expose refresh method for external use
   React.useImperativeHandle(React.forwardRef, () => ({
-    refreshCartCount
+    refreshCartCount,
   }));
 
   if (!cartService.isAuthenticated()) {
     return (
       <Tooltip title="Login to view cart">
-        <IconButton
-          color={color}
-          size={size}
-          onClick={handleCartClick}
-        >
+        <IconButton color={color} size={size} onClick={handleCartClick}>
           <ShoppingCartOutlined />
         </IconButton>
       </Tooltip>
@@ -92,19 +78,19 @@ const CartIcon = ({
         disabled={loading}
       >
         {showCount && cartCount > 0 ? (
-          <Badge 
-            badgeContent={cartCount > 99 ? '99+' : cartCount} 
+          <Badge
+            badgeContent={cartCount > 99 ? "99+" : cartCount}
             color="error"
             sx={{
-              '& .MuiBadge-badge': {
+              "& .MuiBadge-badge": {
                 right: -3,
                 top: -3,
-                border: '2px solid white',
-                padding: '0 4px',
-                fontSize: '0.75rem',
-                minWidth: '20px',
-                height: '20px'
-              }
+                border: "2px solid white",
+                padding: "0 4px",
+                fontSize: "0.75rem",
+                minWidth: "20px",
+                height: "20px",
+              },
             }}
           >
             <ShoppingCartOutlined />

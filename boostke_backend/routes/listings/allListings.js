@@ -3,13 +3,11 @@ const pool = require("../../db");
 
 const router = express.Router();
 
-//popular
 router.get("/all", async (req, res) => {
-  const { page = 1, limit = 10 } = req.query; // Default to page 1, 10 listings per page
+  const { page = 1, limit = 10 } = req.query;
   const offset = (page - 1) * limit;
 
   try {
-    // Fetch listings with pagination, joining with retailer and shop tables
     const result = await pool.query(
       `
       SELECT
@@ -19,11 +17,9 @@ router.get("/all", async (req, res) => {
       FROM
         listings l
       JOIN
-        retailers  r ON l.retailer_id = r.retailer_id
+        retailers r ON l.retailer_id = r.retailer_id
       LEFT JOIN
-        shops s ON l.retailer_id = s.retailer_id -- Use LEFT JOIN in case a retailer doesn't have a shop entry
-      WHERE
-        l.is_available = TRUE
+        shops s ON l.retailer_id = s.retailer_id
       ORDER BY
         l.view_count DESC
       LIMIT $1 OFFSET $2;

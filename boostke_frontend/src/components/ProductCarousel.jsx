@@ -36,7 +36,7 @@ const Carousel = ({ photos, onImageClick, category = "default" }) => {
               <FallbackImage
                 src={photos[currentIndex]}
                 alt={`Slide ${currentIndex + 1}`}
-                className="w-full h-64 md:h-100 object-cover cursor-pointer"
+                className="w-full h-64 md:h-100 object-contain cursor-pointer"
                 category={category}
                 onClick={() => onImageClick(photos[currentIndex])}
               />

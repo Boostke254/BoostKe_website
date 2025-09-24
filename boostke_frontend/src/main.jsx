@@ -255,3 +255,12 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   </AuthProvider>
   // </React.StrictMode>
 );
+
+/* import image1 from 'path/to/image' 
+
+then later
+
+<img src={image1} alt="description" />
+
+
+*/
